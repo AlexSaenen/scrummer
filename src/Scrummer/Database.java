@@ -9,7 +9,7 @@ import java.sql.Statement;
  * Created by alexsaenen on 3/23/17.
  */
 public class Database {
-    static private String connectionUrl = "jdbc:mysql://192.168.56.101:3306/jdbcproject?user=cecs323b&password=cecs323";
+    static private String connectionUrl = "jdbc:mysql://192.168.56.101:3306/scrummer?user=cecs323b&password=cecs323";
     static protected Connection link = null;
     static public boolean isReady = false;
     static private int activeControllers = 0;
