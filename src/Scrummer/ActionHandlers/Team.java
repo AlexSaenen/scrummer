@@ -16,7 +16,7 @@ public class Team extends ActionHandler {
     static private UserInput user = new UserInput();
 
     protected void enableActions() {
-        actions = new String[] {"allTeams", "team", "addTeam"};
+        actions = new String[] {"allTeams", "addTeam"};
     }
     protected boolean isEnabled() {
         return teamsController.isPrepared;
@@ -28,17 +28,6 @@ public class Team extends ActionHandler {
     @SuppressWarnings("unused")
     static public void allTeams() {
         teamsController.getAll();
-    }
-
-    @SuppressWarnings("unused")
-    static public void team() {
-        String teamName = user.getString("Team Name: ");
-        Date from = user.getDate("After (included): ", true);
-        Date to = user.getDate("Before (included): ", true);
-        System.out.println();
-        if (teamsController.get(teamName)) {
-            Meeting.getTeamMeetingsBetween(teamName, from, to);
-        }
     }
 
     @SuppressWarnings("unused")
