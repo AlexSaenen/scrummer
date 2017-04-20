@@ -20,7 +20,9 @@ public class Meeting extends ActionHandler {
     protected void enableActions() {
         actions = new String[]{"meeting", "reserveMeeting", "meetingsWithPurpose"};
     }
-
+    protected boolean isEnabled() {
+        return meetingsController.isPrepared;
+    }
     protected void disable() {
         meetingsController.finish();
     }

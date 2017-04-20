@@ -37,5 +37,6 @@ public abstract class ActionHandler {
     }
 
     protected abstract void enableActions();
+    protected abstract boolean isEnabled();
     protected abstract void disable();
 }

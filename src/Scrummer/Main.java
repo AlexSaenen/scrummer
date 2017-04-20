@@ -6,7 +6,7 @@ package Scrummer;
 public class Main {
 
     public static void main(String[] args) {
-        boolean isRunning = true;
+        boolean isRunning = ActionDispatcher.enable();
 
         while (isRunning) {
             String action = Menu.expose();
@@ -18,10 +18,5 @@ public class Main {
         }
 
         ActionDispatcher.disable();
-
-//        meetingsController.moveBookings("Alternate room", "Office room", new Date(Calendar.getInstance().getTimeInMillis()));
-//        teamsController.finish();
-//        meetingsController.finish();
-//        roomsController.finish();
     }
 }

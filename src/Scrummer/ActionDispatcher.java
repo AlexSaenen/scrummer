@@ -19,6 +19,16 @@ public class ActionDispatcher {
         return null;
     }
 
+    static public boolean enable() {
+        for (int i = 0; i < handlers.length; i++) {
+            if (handlers[i].isEnabled() == false) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     static public void dispatch(String action) {
         ActionHandler handler = matchActionHandler(action);
         if (handler != null) {

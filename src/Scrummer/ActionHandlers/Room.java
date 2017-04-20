@@ -17,6 +17,9 @@ public class Room extends ActionHandler {
     protected void enableActions() {
         actions = new String[] {"roomsStatus", "addRoom"};
     }
+    protected boolean isEnabled() {
+        return roomsController.isPrepared;
+    }
     protected void disable() {
         roomsController.finish();
     }

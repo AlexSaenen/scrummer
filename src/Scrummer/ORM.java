@@ -9,9 +9,20 @@ public abstract class ORM extends Database {
 
     public boolean isPrepared = false;
 
+    public ORM() {
+        if (isReady) {
+            try {
+                CreateStatements();
+                isPrepared = true;
+            } catch (SQLException ex) {
+                System.err.println(ex.getMessage());
+            }
+        }
+    }
+
     protected void close() {
         try {
-            stmnt.close();
+            statement.close();
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
         }
@@ -19,12 +30,16 @@ public abstract class ORM extends Database {
 
     public void finish() {
         try {
-            CloseStatements();
+            if (isPrepared) {
+                CloseStatements();
+            }
+
             unlink();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+    protected abstract void CreateStatements() throws SQLException;
     protected abstract void CloseStatements() throws SQLException;
 }

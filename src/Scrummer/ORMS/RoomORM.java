@@ -15,16 +15,7 @@ public class RoomORM extends ORM {
     protected PreparedStatement getMeetingsForStatement = null;
     protected PreparedStatement addStatement = null;
 
-    public RoomORM() {
-        try {
-            CreateStatements();
-            isPrepared = true;
-        } catch (SQLException ex) {
-            System.err.println(ex.getMessage());
-        }
-    }
-
-    private void CreateStatements() throws SQLException {
+    protected void CreateStatements() throws SQLException {
         getMeetingsForStatement = link.prepareStatement("select * from Meetings where Room_name = ? and Meeting_date = ?");
         addStatement = link.prepareStatement("insert into Conference_rooms values(?, ?, ?, ?, ?)");
     }
@@ -36,8 +27,8 @@ public class RoomORM extends ORM {
 
     protected ResultSet getAllQuery() {
         try {
-            stmnt = link.createStatement();
-            ResultSet results = stmnt.executeQuery("select * from Conference_rooms");
+            statement = link.createStatement();
+            ResultSet results = statement.executeQuery("select * from Conference_rooms");
             return results;
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());

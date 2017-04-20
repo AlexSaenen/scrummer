@@ -18,6 +18,9 @@ public class Team extends ActionHandler {
     protected void enableActions() {
         actions = new String[] {"allTeams", "team", "addTeam"};
     }
+    protected boolean isEnabled() {
+        return teamsController.isPrepared;
+    }
     protected void disable() {
         teamsController.finish();
     }

@@ -18,16 +18,7 @@ public class MeetingORM extends ORM {
     protected PreparedStatement getForPurposeStatement = null;
     protected PreparedStatement moveBookingsStatement = null;
 
-    public MeetingORM() {
-        try {
-            CreateStatements();
-            isPrepared = true;
-        } catch (SQLException ex) {
-            System.err.println(ex.getMessage());
-        }
-    }
-
-    private void CreateStatements() throws SQLException {
+    protected void CreateStatements() throws SQLException {
         getForStatement = link.prepareStatement("select * from Meetings where Software_team_name = ? and Meeting_date between ? and ? order by Meeting_date");
         getStatement = link.prepareStatement("select * from Meetings where Software_team_name = ? and Room_name = ? and Meeting_date = ?");
         reserveStatement = link.prepareStatement("insert into Meetings values(?, ?, ?, ?)");

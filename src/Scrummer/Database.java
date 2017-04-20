@@ -14,19 +14,21 @@ public class Database {
     static public boolean isReady = false;
     static private int activeControllers = 0;
 
-    protected Statement stmnt = null;
+    protected Statement statement = null;
 
     public Database() {
-        if (isReady == false) {
+        if (isReady == false && activeControllers == 0) {
             if (CreateConnection()) {
                 isReady = true;
-                activeControllers++;
             }
         }
+
+        activeControllers++;
     }
 
     private boolean CreateConnection() {
         try {
+            System.out.println("Trying to connect to database ...");
             link = DriverManager.getConnection(connectionUrl);
         } catch (SQLException ex) {
             System.err.println("ConnectionError: " + ex.getMessage());
@@ -47,6 +49,7 @@ public class Database {
 
     public void unlink() {
         activeControllers--;
+
         if (activeControllers == 0) {
             shutdown();
         }

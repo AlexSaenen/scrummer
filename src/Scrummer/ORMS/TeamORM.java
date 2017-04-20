@@ -15,16 +15,7 @@ public class TeamORM extends ORM {
     protected PreparedStatement getStatement = null;
     protected PreparedStatement addStatement = null;
 
-    public TeamORM() {
-        try {
-            CreateStatements();
-            isPrepared = true;
-        } catch (SQLException ex) {
-            System.err.println(ex.getMessage());
-        }
-    }
-
-    private void CreateStatements() throws SQLException {
+    protected void CreateStatements() throws SQLException {
         getStatement = link.prepareStatement("select * from Software_Teams where Software_team_name = ?");
         addStatement = link.prepareStatement("insert into Software_Teams values(?, ?, ?, ?)");
     }
@@ -36,8 +27,8 @@ public class TeamORM extends ORM {
 
     protected ResultSet getAllQuery() {
         try {
-            stmnt = link.createStatement();
-            ResultSet results = stmnt.executeQuery("select * from Software_Teams");
+            statement = link.createStatement();
+            ResultSet results = statement.executeQuery("select * from Software_Teams");
             return results;
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
