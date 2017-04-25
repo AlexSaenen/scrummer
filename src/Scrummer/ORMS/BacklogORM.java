@@ -2,18 +2,18 @@ package Scrummer.ORMS;
 
 import Scrummer.ORM;
 
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 /**
  * Created by alexsaenen on 4/19/17.
  */
 public class BacklogORM extends ORM {
+
+    protected PreparedStatement createStatement;
+
     @Override
     protected void CreateStatements() throws SQLException {
-
+        createStatement = link.prepareStatement("insert into Backlogs (type) values(?)", Statement.RETURN_GENERATED_KEYS);
     }
 
     @Override
@@ -21,12 +21,12 @@ public class BacklogORM extends ORM {
 
     }
 
-    protected int createQuery() {
+    protected int createQuery(boolean isSprint) {
         try {
-            statement = link.createStatement();
-            int result = statement.executeUpdate("insert into Backlogs values(null)", Statement.RETURN_GENERATED_KEYS);
+            createStatement.setBoolean(1, isSprint);
+            int result = createStatement.executeUpdate();
             if (result != -1) {
-                ResultSet rs = statement.getGeneratedKeys();
+                ResultSet rs = createStatement.getGeneratedKeys();
                 if (rs.next()) {
                     return rs.getInt(1);
                 } else {
@@ -36,7 +36,7 @@ public class BacklogORM extends ORM {
 
             return -1;
         } catch (SQLException ex) {
-            System.err.println(ex.getMessage());
+            System.err.println("BacklogORM.createQuery(): " + ex.getMessage());
             return -1;
         }
     }

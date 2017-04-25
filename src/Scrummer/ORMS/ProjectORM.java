@@ -2,10 +2,7 @@ package Scrummer.ORMS;
 
 import Scrummer.ORM;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  * Created by nicolasgirardot on 4/19/17.
@@ -38,7 +35,7 @@ public class ProjectORM extends ORM{
             if (ex.getErrorCode() == 1062) {
                 System.err.println("Cannot add, this project already exists");
             } else {
-                System.err.println(ex.getMessage());
+                System.err.println("ProjectORM.addQuery(): " + ex.getMessage());
             }
             return -1;
         }
@@ -50,7 +47,7 @@ public class ProjectORM extends ORM{
             ResultSet results = statement.executeQuery("select * from Projects");
             return results;
         } catch (SQLException ex) {
-            System.err.println(ex.getMessage());
+            System.err.println("ProjectORM.getAllQuery(): " + ex.getMessage());
             return null;
         }
     }
@@ -61,7 +58,7 @@ public class ProjectORM extends ORM{
             ResultSet results = getStatement.executeQuery();
             return results;
         } catch (SQLException ex) {
-            System.err.println(ex.getMessage());
+            System.err.println("ProjectORM.getQuery(): " + ex.getMessage());
             return null;
         }
     }
