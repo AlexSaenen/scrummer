@@ -12,8 +12,8 @@ import java.sql.SQLException;
  */
 public class ProjectORM extends ORM{
 
-    protected PreparedStatement addStatement = null;
-    protected PreparedStatement getStatement = null;
+    protected PreparedStatement addStatement;
+    protected PreparedStatement getStatement;
 
     protected void CreateStatements() throws SQLException {
         getStatement = link.prepareStatement("select * from Projects where name = ?");
@@ -28,16 +28,11 @@ public class ProjectORM extends ORM{
 
     protected int addQuery(String projectName, Date dueDate, Date creationDate, String description, int backlogId) {
         try {
-            System.out.println("Heyo");
             addStatement.setString(1, projectName);
-            System.out.println("Heyo");
             addStatement.setDate(2, dueDate);
             addStatement.setDate(3, creationDate);
-            System.out.println("Heyo");
             addStatement.setString(4, description);
-            System.out.println("Heyoa");
             addStatement.setInt(5, backlogId);
-            System.out.println("adding");
             return addStatement.executeUpdate();
         } catch (SQLException ex) {
             if (ex.getErrorCode() == 1062) {

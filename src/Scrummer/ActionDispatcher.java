@@ -7,7 +7,7 @@ import Scrummer.ActionHandlers.*;
  */
 public class ActionDispatcher {
 
-    static private ActionHandler[] handlers = new ActionHandler[] {new Project(), new UserStory()};
+    static private ActionHandler[] handlers;
 
     static private ActionHandler matchActionHandler(String action) {
         for (int i = 0; i < handlers.length; i++) {
@@ -20,12 +20,7 @@ public class ActionDispatcher {
     }
 
     static public boolean enable() {
-        for (int i = 0; i < handlers.length; i++) {
-            if (handlers[i].isEnabled() == false) {
-                return false;
-            }
-        }
-
+        handlers = new ActionHandler[] {new Project(), new UserStory()};
         return true;
     }
 
