@@ -2,7 +2,6 @@ package Scrummer.ActionHandlers;
 
 import Scrummer.ActionHandler;
 import Scrummer.Controllers.UserStories;
-import Scrummer.UserInput;
 
 /**
  * Created by nicolasgirardot on 4/19/17.
@@ -10,11 +9,10 @@ import Scrummer.UserInput;
 public class UserStory extends ActionHandler {
 
     private static UserStories userStoriesController = new UserStories();
-    static private UserInput user = new UserInput();
 
     @Override
     protected void enableActions() {
-        actions = new String[]{"createStory", "moveStory"};
+        actions = new String[]{"createStory", "moveStory", "allStories"};
     }
 
     @Override
@@ -25,6 +23,11 @@ public class UserStory extends ActionHandler {
     @Override
     protected void disable() {
         userStoriesController.finish();
+    }
+
+    @SuppressWarnings("unused")
+    static public void allStories(String[] params) {
+        userStoriesController.getAll();
     }
 
     @SuppressWarnings("unused")

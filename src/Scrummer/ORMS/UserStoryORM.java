@@ -85,4 +85,15 @@ public class UserStoryORM extends ORM {
             return -1;
         }
     }
+
+    protected ResultSet getAllQuery() {
+        try {
+            statement = link.createStatement();
+            ResultSet results = statement.executeQuery("select * from UserStories");
+            return results;
+        } catch (SQLException ex) {
+            System.err.println("UserStoriesORM.getAllQuery(): " + ex.getMessage());
+            return null;
+        }
+    }
 }
