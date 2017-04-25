@@ -11,27 +11,27 @@ import java.sql.SQLException;
  */
 public class UserStoryORM extends ORM {
 
-    protected PreparedStatement addStatement;
+    protected PreparedStatement createStatement;
 
     protected void CreateStatements() throws SQLException {
-        addStatement = link.prepareStatement("insert into UserStories (status, role, goal, reason, priority, class, backlogId) values(?, ?, ?, ?, ?, ?, ?)");
+        createStatement = link.prepareStatement("insert into UserStories (status, role, goal, reason, priority, class, backlogId) values(?, ?, ?, ?, ?, ?, ?)");
     }
 
     @Override
     protected void CloseStatements() throws SQLException {
-        addStatement.close();
+        createStatement.close();
     }
 
-    protected int addQuery(int status, String role, String goal, String reason, int priority, String aClass, int backlogId) {
+    protected int createQuery(String role, String goal, String reason, int priority, String aClass, int backlogId) {
         try {
-            addStatement.setInt(1, status);
-            addStatement.setString(2, role);
-            addStatement.setString(3, goal);
-            addStatement.setString(4, reason);
-            addStatement.setInt(5, priority);
-            addStatement.setString(6, aClass);
-            addStatement.setInt(7, backlogId);
-            return addStatement.executeUpdate();
+            createStatement.setInt(1, 0);
+            createStatement.setString(2, role);
+            createStatement.setString(3, goal);
+            createStatement.setString(4, reason);
+            createStatement.setInt(5, priority);
+            createStatement.setString(6, aClass);
+            createStatement.setInt(7, backlogId);
+            return createStatement.executeUpdate();
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
             return -1;

@@ -7,7 +7,9 @@ import Scrummer.ORMS.UserStoryORM;
  */
 public class UserStories extends UserStoryORM {
 
-    public void add(int status, String role, String goal, String reason, int priority, String aClass, int backlogId) {
-        addQuery(status, role, goal, reason, priority, aClass, backlogId);
+    public void create(String role, String goal, String reason, int priority, String aClass, int backlogId) {
+        if (createQuery(role, goal, reason, priority, aClass, backlogId) != -1) {
+            System.out.println("User Story created");
+        }
     }
 }
