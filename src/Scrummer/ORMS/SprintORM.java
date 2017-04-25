@@ -10,15 +10,6 @@ import java.sql.SQLException;
  */
 public class SprintORM extends ORM {
 
-    public SprintORM() {
-        try {
-            CreateStatements();
-            isPrepared = true;
-        } catch (SQLException ex) {
-            System.err.println(ex.getMessage());
-        }
-    }
-
     protected void CreateStatements() throws SQLException {
 
     }

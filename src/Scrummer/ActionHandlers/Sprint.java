@@ -12,7 +12,7 @@ public class Sprint extends ActionHandler {
 
     @Override
     protected void enableActions() {
-
+        actions = new String[]{"addSprint"};
     }
 
     @Override

@@ -9,16 +9,6 @@ import java.sql.SQLException;
  */
 public class UserStoryORM extends ORM {
 
-
-    public UserStoryORM() {
-        try {
-            CreateStatements();
-            isPrepared = true;
-        } catch (SQLException ex) {
-            System.err.println(ex.getMessage());
-        }
-    }
-
     protected void CreateStatements() throws SQLException {
 
     }

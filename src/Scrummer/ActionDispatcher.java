@@ -7,7 +7,7 @@ import Scrummer.ActionHandlers.*;
  */
 public class ActionDispatcher {
 
-    static private ActionHandler[] handlers = new ActionHandler[] {new Team()};
+    static private ActionHandler[] handlers = new ActionHandler[] {new Project(), new UserStory()};
 
     static private ActionHandler matchActionHandler(String action) {
         for (int i = 0; i < handlers.length; i++) {
