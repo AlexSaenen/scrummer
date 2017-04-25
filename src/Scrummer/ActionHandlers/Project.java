@@ -2,9 +2,9 @@ package Scrummer.ActionHandlers;
 
 import Scrummer.ActionHandler;
 import Scrummer.Controllers.Projects;
-import Scrummer.UserInput;
 
 import java.sql.Date;
+import java.sql.ResultSet;
 import java.util.Calendar;
 
 /**
@@ -13,10 +13,9 @@ import java.util.Calendar;
 public class Project extends ActionHandler {
 
     static private Projects projectsController = new Projects();
-    static private UserInput user = new UserInput();
 
     protected void enableActions() {
-        actions = new String[]{"allProjects", "addProject", "project"};
+        actions = new String[]{"allProjects", "addProject", "project", "returnProject"};
     }
 
     protected boolean isEnabled() {
@@ -35,7 +34,7 @@ public class Project extends ActionHandler {
 
     @SuppressWarnings("unused")
     static public void addProject() {
-        String projectName = user.getString("Project Name: ");
+        String projectName = user.getString("SelectProject Name: ");
         Date currentDate = new Date(Calendar.getInstance().getTimeInMillis());
         Date dueDate;
 
@@ -53,10 +52,15 @@ public class Project extends ActionHandler {
 
     @SuppressWarnings("unused")
     static public void project() {
-        String projectName = user.getString("Project Name: ");
+        String projectName = user.getString("SelectProject Name: ");
         System.out.println();
         if (projectsController.get(projectName)) {
-
+            // Details of user stories to do
         }
+    }
+
+    @SuppressWarnings("unused")
+    static public ResultSet returnProject(String projectName) {
+        return projectsController.getQuery(projectName);
     }
 }

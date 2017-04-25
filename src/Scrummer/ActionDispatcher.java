@@ -20,7 +20,7 @@ public class ActionDispatcher {
     }
 
     static public boolean enable() {
-        handlers = new ActionHandler[] {new Project(), new UserStory()};
+        handlers = new ActionHandler[] {new Project(), new UserStory(), new MenuNavigator()};
         return true;
     }
 
@@ -33,9 +33,29 @@ public class ActionDispatcher {
         }
     }
 
+    static public void dispatch(String action, String[] params) {
+        ActionHandler handler = matchActionHandler(action);
+        if (handler != null) {
+            handler.handle(action, params);
+        } else {
+            System.err.println("Unknown action, please select a desired action proposed between ()");
+        }
+    }
+
     static public void disable() {
         for (int i = 0; i < handlers.length; i++) {
             handlers[i].disable();
         }
     }
+
+    static public ActionHandler findHandler(String handlerName) {
+        for (int i = 0; i < handlers.length; i++) {
+            if (handlers[i].getClass().toString().equals(handlerName)) {
+                return handlers[i];
+            }
+        }
+
+        return null;
+    }
+
 }

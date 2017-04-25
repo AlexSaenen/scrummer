@@ -55,7 +55,7 @@ public class ProjectORM extends ORM{
         }
     }
 
-    protected ResultSet getQuery(String projectName) {
+    public ResultSet getQuery(String projectName) {
         try {
             getStatement.setString(1, projectName);
             ResultSet results = getStatement.executeQuery();

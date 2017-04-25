@@ -2,10 +2,6 @@ package Scrummer.ActionHandlers;
 
 import Scrummer.ActionHandler;
 import Scrummer.Controllers.UserStories;
-import Scrummer.UserInput;
-
-import java.sql.Date;
-import java.util.Calendar;
 
 /**
  * Created by nicolasgirardot on 4/19/17.
@@ -13,7 +9,6 @@ import java.util.Calendar;
 public class UserStory extends ActionHandler {
 
     private static UserStories userStoriesController = new UserStories();
-    static private UserInput user = new UserInput();
 
     @Override
     protected void enableActions() {
@@ -31,8 +26,9 @@ public class UserStory extends ActionHandler {
     }
 
     @SuppressWarnings("unused")
-    static public void createStory() {
-        String projectName = user.getString("Story Name: ");
+    static public void createStory(String[] params) {
+        System.out.println(params[0]);
+        // Query project exists
 
     }
 }
