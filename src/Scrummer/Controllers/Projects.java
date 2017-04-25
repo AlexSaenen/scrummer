@@ -13,7 +13,7 @@ import java.sql.SQLException;
 public class Projects extends ProjectORM {
 
     private void displayProjectInfo(ResultSet project) throws SQLException {
-        System.out.print("Project Name: " + project.getString(1));
+        System.out.print("SelectProject Name: " + project.getString(1));
         System.out.print(", Due Date: " + project.getDate(2));
         System.out.print(", Created on: " + project.getDate(3));
         System.out.println(", Description: " + project.getString(4));

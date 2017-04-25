@@ -31,16 +31,14 @@ public class UserStory extends ActionHandler {
     }
 
     @SuppressWarnings("unused")
-    static public void createStory() {
+    static public void createStory(String[] params) {
         int status = 0;
         String role = user.getString("Role: ");
         String goal = user.getString("Goal: ");
         String reason = user.getString("Reason: ");
         int priority = user.getInt("Priority: ");
         String aClass = user.getString("class: ");
-        int backlogId = 12;
+        int backlogId = Integer.valueOf(params[0]);
 
-        userStoriesController.add(status, role, goal, reason, priority, aClass, backlogId);
     }
 }
-
