@@ -1,6 +1,7 @@
 package Scrummer;
 
 import java.sql.SQLException;
+import java.sql.Savepoint;
 
 /**
  * Created by alexsaenen on 3/23/17.
@@ -37,6 +38,30 @@ public abstract class ORM extends Database {
             unlink();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void cancel() {
+        try {
+            link.rollback();
+        } catch (SQLException rollbackError) {
+            System.err.println("UserStoryORM.rollback(): " + rollbackError.getMessage());
+        }
+    }
+
+    public void cancel(Savepoint save) {
+        try {
+            link.rollback(save);
+        } catch (SQLException rollbackError) {
+            System.err.println("UserStoryORM.rollback(): " + rollbackError.getMessage());
+        }
+    }
+
+    public void apply() {
+        try {
+            link.commit();
+        } catch (SQLException rollbackError) {
+            System.err.println("UserStoryORM.rollback(): " + rollbackError.getMessage());
         }
     }
 

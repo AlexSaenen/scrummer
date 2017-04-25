@@ -26,7 +26,10 @@ public class Sprint extends ActionHandler {
     }
 
     static public int create(String projectName, int backlogId) {
-        String title = user.getString("Sprint title: ");
-        return sprintsController.create(projectName, backlogId, title);
+        return sprintsController.create(projectName, backlogId);
+    }
+
+    static public int getBacklogId(String projectName) {
+        return sprintsController.getBacklogId(projectName);
     }
 }

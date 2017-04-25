@@ -1,5 +1,7 @@
 package Scrummer;
 
+import com.mysql.jdbc.Driver;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -30,6 +32,7 @@ public class Database {
         try {
             System.out.println("Trying to connect to database ...");
             link = DriverManager.getConnection(connectionUrl);
+            link.setAutoCommit(false);
         } catch (SQLException ex) {
             System.err.println("ConnectionError: " + ex.getMessage());
         } finally {

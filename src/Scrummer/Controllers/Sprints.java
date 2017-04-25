@@ -7,7 +7,11 @@ import Scrummer.ORMS.SprintORM;
  */
 public class Sprints extends SprintORM {
 
-    public int create(String projectName, int backlogId, String title) {
-        return createQuery(projectName, backlogId, title);
+    public int create(String projectName, int backlogId) {
+        return createQuery(projectName, backlogId);
+    }
+
+    public int getBacklogId(String projectName) {
+        return getBacklogIdQuery(projectName);
     }
 }

@@ -45,7 +45,7 @@ public class MenuNavigator extends ActionHandler {
             if (projectResult.next()) {
                 Menu primaryProjectMenu = new Scrummer.Menus.Project();
                 String action = primaryProjectMenu.expose();
-                ActionDispatcher.dispatch(action, new String[] {String.valueOf(projectResult.getInt(5))});
+                ActionDispatcher.dispatch(action, new String[] {String.valueOf(projectResult.getInt(5)), project});
             } else {
                 System.out.println("No such project");
             }
