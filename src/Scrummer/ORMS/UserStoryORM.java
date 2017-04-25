@@ -33,7 +33,7 @@ public class UserStoryORM extends ORM {
             createStatement.setInt(7, backlogId);
             return createStatement.executeUpdate();
         } catch (SQLException ex) {
-            System.err.println(ex.getMessage());
+            System.err.println("UserStoryORM.createQuery(): " + ex.getMessage());
             return -1;
         }
     }

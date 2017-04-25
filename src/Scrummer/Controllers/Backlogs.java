@@ -7,7 +7,7 @@ import Scrummer.ORMS.BacklogORM;
  */
 public class Backlogs extends BacklogORM {
 
-    public int create() {
-        return createQuery();
+    public int create(boolean isSprint) {
+        return createQuery(isSprint);
     }
 }

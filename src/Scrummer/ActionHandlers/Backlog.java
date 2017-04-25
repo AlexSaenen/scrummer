@@ -24,7 +24,7 @@ public class Backlog extends ActionHandler {
         backlogsController.finish();
     }
 
-    static public int create() {
-        return backlogsController.create();
+    static public int create(boolean isSprint) {
+        return backlogsController.create(isSprint);
     }
 }

@@ -1,6 +1,7 @@
 package Scrummer.Controllers;
 
 import Scrummer.ActionHandlers.Backlog;
+import Scrummer.ActionHandlers.Sprint;
 import Scrummer.ORMS.ProjectORM;
 
 import java.sql.Date;
@@ -20,13 +21,18 @@ public class Projects extends ProjectORM {
     }
 
     public boolean add(String projectName, Date dueDate, Date creationDate, String description) {
-        int backlogId = Backlog.create();
+        int backlogId = Backlog.create(false);
 
         if (backlogId == -1) {
             return false;
         }
 
-        return addQuery(projectName, dueDate, creationDate, description, backlogId) != -1;
+        if (addQuery(projectName, dueDate, creationDate, description, backlogId) == -1) {
+            return false;
+        }
+
+        backlogId = Backlog.create(true);
+        return Sprint.create(projectName, backlogId) != -1;
     }
 
     public void getAll() {

@@ -22,6 +22,11 @@ public class Sprint extends ActionHandler {
 
     @Override
     protected void disable() {
+        sprintsController.finish();
+    }
 
+    static public int create(String projectName, int backlogId) {
+        String title = user.getString("Sprint title: ");
+        return sprintsController.create(projectName, backlogId, title);
     }
 }
