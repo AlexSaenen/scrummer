@@ -14,7 +14,7 @@ public class UserStoryORM extends ORM {
     protected PreparedStatement createStatement;
 
     protected void CreateStatements() throws SQLException {
-        createStatement = link.prepareStatement("insert into UserStories (status, role, goal, reason, priority, class, backlogId) values(?, ?, ?, ?, ?, ?, ?)");
+        createStatement = link.prepareStatement("insert into UserStories (role, goal, reason, priority, class, backlogId) values(?, ?, ?, ?, ?, ?)");
     }
 
     @Override
@@ -24,13 +24,12 @@ public class UserStoryORM extends ORM {
 
     protected int createQuery(String role, String goal, String reason, int priority, String aClass, int backlogId) {
         try {
-            createStatement.setInt(1, 0);
-            createStatement.setString(2, role);
-            createStatement.setString(3, goal);
-            createStatement.setString(4, reason);
-            createStatement.setInt(5, priority);
-            createStatement.setString(6, aClass);
-            createStatement.setInt(7, backlogId);
+            createStatement.setString(1, role);
+            createStatement.setString(2, goal);
+            createStatement.setString(3, reason);
+            createStatement.setInt(4, priority);
+            createStatement.setString(5, aClass);
+            createStatement.setInt(6, backlogId);
             return createStatement.executeUpdate();
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
