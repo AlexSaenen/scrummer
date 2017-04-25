@@ -10,11 +10,10 @@ import Scrummer.UserInput;
 public class UserStory extends ActionHandler {
 
     private static UserStories userStoriesController = new UserStories();
-    static private UserInput user = new UserInput();
 
     @Override
     protected void enableActions() {
-        actions = new String[]{"createStory"};
+        actions = new String[]{"createStory", "allStories"};
     }
 
     @Override
@@ -25,6 +24,11 @@ public class UserStory extends ActionHandler {
     @Override
     protected void disable() {
         userStoriesController.finish();
+    }
+
+    @SuppressWarnings("unused")
+    static public void allStories(String[] params) {
+        userStoriesController.getAll();
     }
 
     @SuppressWarnings("unused")

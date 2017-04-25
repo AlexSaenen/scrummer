@@ -9,7 +9,7 @@ public class Project extends Menu {
 
 
     public Project() {
-        userAllowedRequests = new String[] {"createStory"};
+        userAllowedRequests = new String[] {"createStory", "allStories"};
     }
 
     @Override
@@ -17,6 +17,7 @@ public class Project extends Menu {
         System.out.println("\n========================");
         System.out.println("\nUserStory Actions:");
         System.out.println("\t(createStory) => Add new User Story");
+        System.out.println("\t(allStories) => View all User Stories");
         System.out.println();
     }
 }

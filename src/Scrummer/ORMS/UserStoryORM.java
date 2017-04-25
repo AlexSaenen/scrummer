@@ -4,6 +4,7 @@ import Scrummer.ORM;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -12,6 +13,8 @@ import java.sql.SQLException;
 public class UserStoryORM extends ORM {
 
     protected PreparedStatement createStatement;
+    protected PreparedStatement moveStatement;
+
 
     protected void CreateStatements() throws SQLException {
         createStatement = link.prepareStatement("insert into UserStories (role, goal, reason, priority, class, backlogId) values(?, ?, ?, ?, ?, ?)");
@@ -34,6 +37,17 @@ public class UserStoryORM extends ORM {
         } catch (SQLException ex) {
             System.err.println("UserStoryORM.createQuery(): " + ex.getMessage());
             return -1;
+        }
+    }
+
+    protected ResultSet getAllQuery() {
+        try {
+            statement = link.createStatement();
+            ResultSet results = statement.executeQuery("select * from UserStories");
+            return results;
+        } catch (SQLException ex) {
+            System.err.println("UserStoriesORM.getAllQuery(): " + ex.getMessage());
+            return null;
         }
     }
 }
