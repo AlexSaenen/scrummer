@@ -15,12 +15,14 @@ public class UserStoryORM extends ORM {
     protected PreparedStatement getAllStatement;
     protected PreparedStatement getBacklogIdStatement;
     protected PreparedStatement updateBacklogIdStatement;
+    protected PreparedStatement getStatement;
 
     protected void CreateStatements() throws SQLException {
         createStatement = link.prepareStatement("insert into UserStories (role, goal, reason, priority, class, backlogId) values(?, ?, ?, ?, ?, ?)");
         getAllStatement = link.prepareStatement("select * from UserStories where backlogId = ?");
         getBacklogIdStatement = link.prepareStatement("select backlogId from UserStories where id = ?");
         updateBacklogIdStatement = link.prepareStatement("update UserStories set backlogId = ? where id = ?");
+        getStatement = link.prepareStatement("select * from UserStories where id = ?");
     }
 
     @Override
@@ -95,6 +97,19 @@ public class UserStoryORM extends ORM {
             return getAllStatement.executeQuery();
         } catch (SQLException ex) {
             System.err.println("UserStoriesORM.getAllQuery(): " + ex.getMessage());
+            return null;
+        }
+    }
+
+
+
+    public ResultSet getQuery(int userStoryId) {
+        try {
+            getStatement.setInt(1, userStoryId);
+            return getStatement.executeQuery();
+        }
+        catch (SQLException ex) {
+            System.err.println("ProjectORM.getQuery(): " + ex.getMessage());
             return null;
         }
     }

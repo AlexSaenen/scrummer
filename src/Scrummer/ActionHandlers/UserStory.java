@@ -12,7 +12,7 @@ public class UserStory extends ActionHandler {
 
     @Override
     protected void enableActions() {
-        actions = new String[]{"createStory", "moveStory", "allStories"};
+        actions = new String[]{"createStory", "moveStory", "allStories", "userStory"};
     }
 
     @Override
@@ -28,6 +28,12 @@ public class UserStory extends ActionHandler {
     @SuppressWarnings("unused")
     static public void allStories(String[] params) {
         userStoriesController.getAll(Integer.valueOf(params[0]));
+    }
+
+    @SuppressWarnings("unused")
+    static public void userStory(String[] params) {
+        int id = user.getInt("User Story ID: ");
+        userStoriesController.get(id);
     }
 
     @SuppressWarnings("unused")
