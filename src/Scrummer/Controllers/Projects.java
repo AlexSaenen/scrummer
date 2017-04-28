@@ -2,6 +2,7 @@ package Scrummer.Controllers;
 
 import Scrummer.ActionHandlers.Backlog;
 import Scrummer.ActionHandlers.Sprint;
+import Scrummer.ActionHandlers.UserStory;
 import Scrummer.ORMS.ProjectORM;
 
 import java.sql.Date;
@@ -78,6 +79,16 @@ public class Projects extends ProjectORM {
                 System.out.println(" None");
             } else {
                 displayProjectInfo(projects);
+                System.out.println("\n==PROJECT BACKLOG==");
+                UserStory.allStories(new String[]{String.valueOf(projects.getInt(5)), projectName});
+                int sprintBacklogId = Sprint.getBacklogId(projectName);
+                if (sprintBacklogId == -1) {
+                    System.err.println("Had trouble finding sprint info for this project");
+                    return false;
+                }
+
+                System.out.println("==SPRINT BACKLOG==");
+                UserStory.allStories(new String[]{String.valueOf(sprintBacklogId), projectName});
                 return true;
             }
         } catch (SQLException ex) {
