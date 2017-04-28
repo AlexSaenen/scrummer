@@ -12,7 +12,7 @@ import java.sql.SQLException;
 public class UserStories extends UserStoryORM {
 
     private void displayUserStories(ResultSet stories) throws SQLException {
-        System.out.print("UserStory ID:  " + stories.getString(1));
+        System.out.print("UserStory ID:  " + stories.getInt(1));
         System.out.println(", Goal : " + stories.getString(4));
     }
 
@@ -38,8 +38,8 @@ public class UserStories extends UserStoryORM {
         return false;
     }
 
-    public void getAll() {
-        ResultSet stories = getAllQuery();
+    public void getAll(int backlogId) {
+        ResultSet stories = getAllQuery(backlogId);
         try {
             System.out.print("\nUSER STORIES:");
             if (!stories.first()) {
@@ -55,6 +55,5 @@ public class UserStories extends UserStoryORM {
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
         }
-        close();
     }
 }

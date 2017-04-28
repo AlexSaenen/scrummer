@@ -22,46 +22,33 @@ public class Projects extends ProjectORM {
     }
 
     public boolean add(String projectName, Date dueDate, Date creationDate, String description) {
-        try {
-            Savepoint save = link.setSavepoint();
-            int backlogId = Backlog.create(false);
+        int backlogId = Backlog.create(false);
 
-            if (backlogId == -1) {
-                System.out.println("Cancel backlog");
-                cancel(save);
-                return false;
-            }
-            apply();
-
-            if (addQuery(projectName, dueDate, creationDate, description, backlogId) == -1) {
-                System.out.println("Cancel add");
-                cancel(save);
-                return false;
-            }
-            apply();
-
-            backlogId = Backlog.create(true);
-
-            if (backlogId == -1) {
-                System.out.println("Cancel create");
-                cancel(save);
-                return false;
-            }
-            apply();
-
-            if (Sprint.create(projectName, backlogId) == -1) {
-                System.out.println("Cancel create sprint");
-                cancel(save);
-                return false;
-            }
-
-            apply();
-
-            return true;
-        } catch (SQLException ex) {
-            System.err.println("Failed setting a save point");
+        if (backlogId == -1) {
+            cancel();
             return false;
         }
+
+        if (addQuery(projectName, dueDate, creationDate, description, backlogId) == -1) {
+            cancel();
+            return false;
+        }
+
+        backlogId = Backlog.create(true);
+
+        if (backlogId == -1) {
+            cancel();
+            return false;
+        }
+
+        if (Sprint.create(projectName, backlogId) == -1) {
+            cancel();
+            return false;
+        }
+
+        apply();
+
+        return true;
     }
 
     public void getAll() {

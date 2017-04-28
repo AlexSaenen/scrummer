@@ -12,11 +12,13 @@ import java.sql.SQLException;
 public class UserStoryORM extends ORM {
 
     protected PreparedStatement createStatement;
+    protected PreparedStatement getAllStatement;
     protected PreparedStatement getBacklogIdStatement;
     protected PreparedStatement updateBacklogIdStatement;
 
     protected void CreateStatements() throws SQLException {
         createStatement = link.prepareStatement("insert into UserStories (role, goal, reason, priority, class, backlogId) values(?, ?, ?, ?, ?, ?)");
+        getAllStatement = link.prepareStatement("select * from UserStories where backlogId = ?");
         getBacklogIdStatement = link.prepareStatement("select backlogId from UserStories where id = ?");
         updateBacklogIdStatement = link.prepareStatement("update UserStories set backlogId = ? where id = ?");
     }
@@ -24,6 +26,7 @@ public class UserStoryORM extends ORM {
     @Override
     protected void CloseStatements() throws SQLException {
         createStatement.close();
+        getAllStatement.close();
         getBacklogIdStatement.close();
         updateBacklogIdStatement.close();
     }
@@ -86,11 +89,10 @@ public class UserStoryORM extends ORM {
         }
     }
 
-    protected ResultSet getAllQuery() {
+    protected ResultSet getAllQuery(int backlogId) {
         try {
-            statement = link.createStatement();
-            ResultSet results = statement.executeQuery("select * from UserStories");
-            return results;
+            getAllStatement.setInt(1, backlogId);
+            return getAllStatement.executeQuery();
         } catch (SQLException ex) {
             System.err.println("UserStoriesORM.getAllQuery(): " + ex.getMessage());
             return null;

@@ -27,7 +27,7 @@ public class UserStory extends ActionHandler {
 
     @SuppressWarnings("unused")
     static public void allStories(String[] params) {
-        userStoriesController.getAll();
+        userStoriesController.getAll(Integer.valueOf(params[0]));
     }
 
     @SuppressWarnings("unused")

@@ -16,7 +16,7 @@ public class SprintORM extends ORM {
     protected PreparedStatement getBacklogIdStatement;
 
     protected void CreateStatements() throws SQLException {
-        addStatement = link.prepareStatement("insert into Sprints (projectName, backlogId) values(?, ?)", Statement.RETURN_GENERATED_KEYS);
+        addStatement = link.prepareStatement("insert into Sprints (projectName, backlogId) values(?, ?)");
         getBacklogIdStatement = link.prepareStatement("select backlogId from Sprints where projectName = ?");
     }
 
@@ -30,19 +30,7 @@ public class SprintORM extends ORM {
         try {
             addStatement.setString(1, projectName);
             addStatement.setInt(2, backlogId);
-            int result = addStatement.executeUpdate();
-            if (result != -1) {
-                ResultSet rs = addStatement.getGeneratedKeys();
-                if (rs.next()) {
-                    return rs.getInt(1);
-                } else {
-                    return -1;
-                }
-            }
-
-
-            System.out.println("create Query fail to execute update");
-            return -1;
+            return addStatement.executeUpdate();
         } catch (SQLException ex) {
             System.err.println("SprintORM.createQuery(): " + ex.getMessage());
             return -1;
