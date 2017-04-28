@@ -3,6 +3,7 @@ package Scrummer.Controllers;
 import Scrummer.ActionHandlers.Sprint;
 import Scrummer.ORMS.UserStoryORM;
 
+import javax.xml.transform.Result;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -14,6 +15,13 @@ public class UserStories extends UserStoryORM {
     private void displayUserStories(ResultSet stories) throws SQLException {
         System.out.print("UserStory ID:  " + stories.getInt(1));
         System.out.println(", Goal : " + stories.getString(4));
+    }
+
+
+    private void displayUserStoryInfo(ResultSet userStories) throws SQLException{
+        System.out.print("As a " + userStories.getString(3));
+        System.out.print(", I want " + userStories.getString(4));
+        System.out.println(" so that " + userStories.getString(5));
     }
 
     public void create(String role, String goal, String reason, int priority, String aClass, int backlogId) {
@@ -55,5 +63,22 @@ public class UserStories extends UserStoryORM {
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
         }
+    }
+
+    public boolean get(int userStoryId) {
+        ResultSet userStories = getQuery(userStoryId);
+        try {
+            userStories.next();
+            if (!userStories.first()) {
+                System.out.println(" None");
+            } else {
+                displayUserStoryInfo(userStories);
+                return true;
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+
+        return false;
     }
 }
