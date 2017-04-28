@@ -7,20 +7,26 @@ import Scrummer.Menu;
  */
 public class Project extends Menu {
 
+    private String selectedProject;
 
-    public Project() {
-        userAllowedRequests = new String[] {"createStory", "moveStory", "allStories", "deselect"};
+    public Project(String project) {
+        selectedProject = project;
+        userAllowedRequests = new String[] {"createStory", "moveStory", "allStories", "deselect",
+            "planSprint", "startSprint"};
     }
 
     @Override
     protected void display() {
-        System.out.println("\n========================");
+        System.out.println("\n========"+selectedProject+"========");
         System.out.println("\nProject Actions:");
         System.out.println("\t(deselect) => Deselect Project and return to previous menu");
         System.out.println("\nUserStory Actions:");
         System.out.println("\t(createStory) => Add new User Story");
         System.out.println("\t(moveStory) => Move a User Story to the Sprint Backlog");
         System.out.println("\t(allStories) => View all User Stories");
+        System.out.println("\nSprint Actions:");
+        System.out.println("\t(planSprint) => Plan the sprint duration and title");
+        System.out.println("\t(startSprint) => Start the sprint for this project");
         System.out.println();
     }
 }

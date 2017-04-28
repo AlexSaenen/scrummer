@@ -12,7 +12,7 @@ public class Sprint extends ActionHandler {
 
     @Override
     protected void enableActions() {
-        actions = new String[]{"addSprint"};
+        actions = new String[]{"startSprint", "planSprint"};
     }
 
     @Override
@@ -32,4 +32,21 @@ public class Sprint extends ActionHandler {
     static public int getBacklogId(String projectName) {
         return sprintsController.getBacklogId(projectName);
     }
+
+    @SuppressWarnings("unused")
+    static public int planSprint(String []params) {
+        String title = user.getString("Sprint goal/title: ");
+
+        int duration = -1;
+        while (duration < 21 || duration > 28) {
+            duration = user.getInt("(between 21 and 28 days) Sprint duration: ");
+        }
+
+        return sprintsController.plan(title, duration, params[1]);
+    }
+
+//    @SuppressWarnings("unused")
+//    static public int startSprint(String projectName) {
+//        return sprintsController.start(projectName);
+//    }
 }

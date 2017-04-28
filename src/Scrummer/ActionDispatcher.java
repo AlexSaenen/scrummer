@@ -20,7 +20,7 @@ public class ActionDispatcher {
     }
 
     static public boolean enable() {
-        handlers = new ActionHandler[] {new Project(), new UserStory(), new MenuNavigator()};
+        handlers = new ActionHandler[] {new Project(), new UserStory(), new Sprint(), new MenuNavigator()};
         return true;
     }
 

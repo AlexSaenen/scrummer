@@ -43,7 +43,7 @@ public class MenuNavigator extends ActionHandler {
 
         try {
             if (projectResult.next()) {
-                Menu primaryProjectMenu = new Scrummer.Menus.Project();
+                Menu primaryProjectMenu = new Scrummer.Menus.Project(project);
                 boolean isProjectSelected = true;
 
                 while (isProjectSelected) {
