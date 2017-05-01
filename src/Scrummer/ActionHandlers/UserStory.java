@@ -12,7 +12,7 @@ public class UserStory extends ActionHandler {
 
     @Override
     protected void enableActions() {
-        actions = new String[]{"createStory", "moveStory", "allStories", "userStory", "updateStoryStatus"};
+        actions = new String[]{"createStory", "moveStory", "allStories", "userStory"};
     }
 
     @Override
@@ -63,6 +63,10 @@ public class UserStory extends ActionHandler {
         }
 
         userStoriesController.move(storyId, params[1], Integer.valueOf(params[0]));
+    }
+
+    static public void getToDos(Integer backlogId) {
+        userStoriesController.getTodos(backlogId);
     }
 
     @SuppressWarnings("unused")

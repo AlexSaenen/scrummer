@@ -13,6 +13,7 @@ public class UserStoryORM extends ORM {
 
     protected PreparedStatement createStatement;
     protected PreparedStatement getAllStatement;
+    protected PreparedStatement getToDoStatement;
     protected PreparedStatement getBacklogIdStatement;
     protected PreparedStatement updateBacklogIdStatement;
     protected PreparedStatement getStatement;
@@ -25,12 +26,14 @@ public class UserStoryORM extends ORM {
         updateBacklogIdStatement = link.prepareStatement("update UserStories set backlogId = ? where id = ?");
         getStatement = link.prepareStatement("select * from UserStories where id = ?");
         changeStatusStatement = link.prepareStatement("update UserStories set status = ?  where id = ?");
+        getToDoStatement = link.prepareStatement("select * from UserStories where backlogId = ? and status = 0");
     }
 
     @Override
     protected void CloseStatements() throws SQLException {
         createStatement.close();
         getAllStatement.close();
+        getToDoStatement.close();
         getBacklogIdStatement.close();
         updateBacklogIdStatement.close();
         getStatement.close();
@@ -128,6 +131,17 @@ public class UserStoryORM extends ORM {
         } catch (SQLException e) {
                 e.printStackTrace();
                 return -1;
+        }
+    }
+
+    public ResultSet getToDoQuery(int backlogId) {
+        try {
+            getToDoStatement.setInt(1, backlogId);
+            return getToDoStatement.executeQuery();
+        }
+        catch (SQLException ex) {
+            System.err.println("ProjectORM.getQuery(): " + ex.getMessage());
+            return null;
         }
     }
 }

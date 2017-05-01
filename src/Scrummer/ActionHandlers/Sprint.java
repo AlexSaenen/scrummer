@@ -42,7 +42,7 @@ public class Sprint extends ActionHandler {
             duration = user.getInt("(between 21 and 28 days) Sprint duration: ");
         }
 
-        return sprintsController.plan(title, duration, params[1]);
+        return sprintsController.plan(title, duration, params);
     }
 
 //    @SuppressWarnings("unused")
