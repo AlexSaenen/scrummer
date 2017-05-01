@@ -7,6 +7,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import static java.sql.Connection.TRANSACTION_READ_COMMITTED;
+
 /**
  * Created by alexsaenen on 3/23/17.
  */
@@ -33,6 +35,7 @@ public class Database {
             System.out.println("Trying to connect to database ...");
             link = DriverManager.getConnection(connectionUrl);
             link.setAutoCommit(false);
+            link.setTransactionIsolation(TRANSACTION_READ_COMMITTED);
         } catch (SQLException ex) {
             System.err.println("ConnectionError: " + ex.getMessage());
         } finally {

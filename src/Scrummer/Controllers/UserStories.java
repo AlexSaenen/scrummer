@@ -81,4 +81,23 @@ public class UserStories extends UserStoryORM {
 
         return false;
     }
+
+    public void getTodos(int backlogId) {
+        ResultSet stories = getToDoQuery(backlogId);
+        try {
+            System.out.print("\nUSER STORIES:");
+            if (!stories.first()) {
+                System.out.println(" None");
+            } else {
+                System.out.println();
+                do {
+                    System.out.print("\t");
+                    displayUserStories(stories);
+                } while (stories.next());
+            }
+            System.out.println();
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+    }
 }

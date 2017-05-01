@@ -13,6 +13,7 @@ public class UserStoryORM extends ORM {
 
     protected PreparedStatement createStatement;
     protected PreparedStatement getAllStatement;
+    protected PreparedStatement getToDoStatement;
     protected PreparedStatement getBacklogIdStatement;
     protected PreparedStatement updateBacklogIdStatement;
     protected PreparedStatement getStatement;
@@ -23,12 +24,15 @@ public class UserStoryORM extends ORM {
         getBacklogIdStatement = link.prepareStatement("select backlogId from UserStories where id = ?");
         updateBacklogIdStatement = link.prepareStatement("update UserStories set backlogId = ? where id = ?");
         getStatement = link.prepareStatement("select * from UserStories where id = ?");
+        getToDoStatement = link.prepareStatement("select * from UserStories where backlogId = ? and status = 0");
     }
 
     @Override
     protected void CloseStatements() throws SQLException {
         createStatement.close();
         getAllStatement.close();
+        getStatement.close();
+        getToDoStatement.close();
         getBacklogIdStatement.close();
         updateBacklogIdStatement.close();
     }
@@ -93,6 +97,7 @@ public class UserStoryORM extends ORM {
 
     protected ResultSet getAllQuery(int backlogId) {
         try {
+            System.out.println(backlogId);
             getAllStatement.setInt(1, backlogId);
             return getAllStatement.executeQuery();
         } catch (SQLException ex) {
@@ -107,6 +112,17 @@ public class UserStoryORM extends ORM {
         try {
             getStatement.setInt(1, userStoryId);
             return getStatement.executeQuery();
+        }
+        catch (SQLException ex) {
+            System.err.println("ProjectORM.getQuery(): " + ex.getMessage());
+            return null;
+        }
+    }
+
+    public ResultSet getToDoQuery(int backlogId) {
+        try {
+            getToDoStatement.setInt(1, backlogId);
+            return getToDoStatement.executeQuery();
         }
         catch (SQLException ex) {
             System.err.println("ProjectORM.getQuery(): " + ex.getMessage());

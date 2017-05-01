@@ -54,9 +54,8 @@ public class Project extends ActionHandler {
     static public void project() {
         String projectName = user.getString("SelectProject Name: ");
         System.out.println();
-        if (projectsController.get(projectName)) {
-            // Details of user stories to do
-        }
+
+        projectsController.get(projectName);
     }
 
     @SuppressWarnings("unused")
