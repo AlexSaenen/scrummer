@@ -2,7 +2,6 @@ package Scrummer.ORMS;
 
 import Scrummer.ORM;
 
-import java.sql.Array;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,6 +19,7 @@ public class UserStoryORM extends ORM {
     protected PreparedStatement updateABacklogIdStatement;
     protected PreparedStatement updateAllBacklogIdStatement;
     protected PreparedStatement getStatement;
+    protected PreparedStatement changeStatusStatement;
 
     protected void CreateStatements() throws SQLException {
         createStatement = link.prepareStatement("insert into UserStories (role, goal, reason, priority, class, backlogId) values(?, ?, ?, ?, ?, ?)");
@@ -29,6 +29,7 @@ public class UserStoryORM extends ORM {
         updateABacklogIdStatement = link.prepareStatement("update UserStories set backlogId = ? where id = ? and backlogId = ?");
         updateAllBacklogIdStatement = link.prepareStatement("update UserStories set backlogId = ? where backlogId = ?");
         getStatement = link.prepareStatement("select * from UserStories where id = ?");
+        changeStatusStatement = link.prepareStatement("update UserStories set status = ?  where id = ?");
         getToDoStatement = link.prepareStatement("select * from UserStories where backlogId = ? and status = 0");
     }
 
@@ -36,12 +37,13 @@ public class UserStoryORM extends ORM {
     protected void CloseStatements() throws SQLException {
         createStatement.close();
         getAllStatement.close();
-        getStatement.close();
         getToDoStatement.close();
         getBacklogIdStatement.close();
         updateBacklogIdStatement.close();
         updateABacklogIdStatement.close();
         updateAllBacklogIdStatement.close();
+        getStatement.close();
+        changeStatusStatement.close();
     }
 
     protected int createQuery(String role, String goal, String reason, int priority, String aClass, int backlogId) {
@@ -54,7 +56,7 @@ public class UserStoryORM extends ORM {
             createStatement.setInt(6, backlogId);
             int result = createStatement.executeUpdate();
 
-            link.commit();
+            apply();
             return result;
         } catch (SQLException ex) {
             System.err.println("UserStoryORM.createQuery(): " + ex.getMessage());
@@ -136,6 +138,19 @@ public class UserStoryORM extends ORM {
         catch (SQLException ex) {
             System.err.println("ProjectORM.getQuery(): " + ex.getMessage());
             return null;
+        }
+    }
+
+    public int changeStatusQuery(int userStoryId, int status) {
+        try {
+            changeStatusStatement.setInt(1, status - 1);
+            changeStatusStatement.setInt(2, userStoryId);
+            int result = changeStatusStatement.executeUpdate();
+            apply();
+            return result;
+        } catch (SQLException e) {
+                e.printStackTrace();
+                return -1;
         }
     }
 

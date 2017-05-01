@@ -110,6 +110,10 @@ public class UserStories extends UserStoryORM {
         return true;
     }
 
+    public void changeStatus(int userStoryId, int status) {
+        changeStatusQuery(userStoryId, status);
+    }
+
     public void getTodos(int backlogId) {
         ResultSet stories = getToDoQuery(backlogId);
         try {
