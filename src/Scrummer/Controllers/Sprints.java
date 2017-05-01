@@ -21,14 +21,14 @@ public class Sprints extends SprintORM {
         return createQuery(projectName, backlogId);
     }
 
-    public int getBacklogId(String projectName) {
-        return getBacklogIdQuery(projectName);
+    public int getCurrentBacklogId(String projectName) {
+        return getCurrentBacklogIdQuery(projectName);
     }
 
     public int plan(String title, int duration, String[] projectInfo) {
         UserInput inputMethod = new UserInput();
 
-        int sprintId = getBacklogId(projectInfo[1]);
+        int sprintId = getCurrentBacklogId(projectInfo[1]);
 
         if (sprintId == -1) {
             return -1;
