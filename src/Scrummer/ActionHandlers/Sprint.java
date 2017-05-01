@@ -45,8 +45,8 @@ public class Sprint extends ActionHandler {
         return sprintsController.plan(title, duration, params);
     }
 
-//    @SuppressWarnings("unused")
-//    static public int startSprint(String projectName) {
-//        return sprintsController.start(projectName);
-//    }
+    @SuppressWarnings("unused")
+    static public int startSprint(String []params) {
+        return sprintsController.start(params[1]);
+    }
 }
