@@ -58,7 +58,12 @@ public class Sprints extends SprintORM {
 
         return result;
     }
-//    public int start(String projectName) {
-//        return startQuery(projectName);
-//    }
+
+    public int start(String projectName) {
+        int queryStatus = startQuery(projectName);
+        if (queryStatus == 0) {
+            System.out.println("Plan the project first");
+        }
+        return queryStatus;
+      }
 }
