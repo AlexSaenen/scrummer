@@ -81,4 +81,8 @@ public class UserStories extends UserStoryORM {
 
         return false;
     }
+
+    public void changeStatus(int userStoryId, int status) {
+        changeStatusQuery(userStoryId, status);
+    }
 }

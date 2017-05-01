@@ -12,7 +12,7 @@ public class UserStory extends ActionHandler {
 
     @Override
     protected void enableActions() {
-        actions = new String[]{"createStory", "moveStory", "allStories", "userStory"};
+        actions = new String[]{"createStory", "moveStory", "allStories", "userStory", "updateStoryStatus"};
     }
 
     @Override
@@ -63,5 +63,26 @@ public class UserStory extends ActionHandler {
         }
 
         userStoriesController.move(storyId, params[1], Integer.valueOf(params[0]));
+    }
+
+    @SuppressWarnings("unused")
+    static public void updateStoryStatus(String[] params) {
+        int storyId = -1;
+        int status = -1;
+
+        while (storyId < 0) {
+            storyId = user.getInt("User Story Id: ");
+
+        }
+        while (status < 0) {
+            status = user.getInt("new User Story status : Todo (1)" +
+                    "\n\tBuild-and-document (2)" +
+                    "\n\tTesting (3)" +
+                    "\n\t" +
+                    "Completed (4) :");
+
+        }
+
+        userStoriesController.changeStatus(storyId, status);
     }
 }
