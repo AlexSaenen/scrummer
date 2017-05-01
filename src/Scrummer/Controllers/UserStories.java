@@ -33,14 +33,18 @@ public class UserStories extends UserStoryORM {
     public boolean move(int storyId, String projectName, int backlogId) {
         if (getBacklogIdQuery(storyId) != backlogId) {
             System.err.println("This User Story is not in the Project's Backlog");
+            return false;
         }
 
         int sprintId = Sprint.getBacklogId(projectName);
 
         if (sprintId != -1) {
-            if (updateBacklogIdQuery(storyId, sprintId) == -1) {
+            if (updateBacklogIdQuery(storyId, sprintId, -1) == -1) {
                 System.err.println("Failed to move User Story to Sprint Backlog");
+                return false;
             }
+
+            return true;
         }
 
         return false;
@@ -80,6 +84,30 @@ public class UserStories extends UserStoryORM {
         }
 
         return false;
+    }
+
+    public boolean moveAll(int from ,int to) {
+        if (updateAllBacklogIdQuery(from, to) == -1) {
+            System.err.println("Failed to move User Stories to another Backlog");
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean moveSome(int from ,int to, Integer[] some) {
+        if (some.length == 0) {
+            return false;
+        }
+
+        for (Integer who : some) {
+            if (updateBacklogIdQuery(who, to, from) == -1) {
+                System.err.println("Failed to move User Story to Sprint Backlog");
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public void getTodos(int backlogId) {

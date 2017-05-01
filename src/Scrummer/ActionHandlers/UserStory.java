@@ -65,6 +65,14 @@ public class UserStory extends ActionHandler {
         userStoriesController.move(storyId, params[1], Integer.valueOf(params[0]));
     }
 
+    static public boolean moveAll(int from, int to) {
+        return userStoriesController.moveAll(from, to);
+    }
+
+    static public boolean moveSome(int from, int to, Integer[] which) {
+        return userStoriesController.moveSome(from, to, which);
+    }
+
     static public void getToDos(Integer backlogId) {
         userStoriesController.getTodos(backlogId);
     }

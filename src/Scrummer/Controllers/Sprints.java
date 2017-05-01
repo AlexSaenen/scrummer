@@ -28,7 +28,16 @@ public class Sprints extends SprintORM {
     public int plan(String title, int duration, String[] projectInfo) {
         UserInput inputMethod = new UserInput();
 
-//        UserStory.moveAllToProject(projectInfo[1]);
+        int sprintId = getBacklogId(projectInfo[1]);
+
+        if (sprintId == -1) {
+            return -1;
+        }
+
+        if (UserStory.moveAll(sprintId, Integer.valueOf(projectInfo[0])) == false) {
+            System.err.println("Failed to move all sprint backlog stories to project's backlog");
+            return -1;
+        }
 
         Supplier<List<Integer>> selector = ()-> {
             List<Integer> selected = new ArrayList<>();
@@ -37,18 +46,28 @@ public class Sprints extends SprintORM {
             String input = inputMethod.getString("[n,n,...] Make a list of selections: ");
             String[] stringSelections = input.split(",");
 
-            for (String select : stringSelections) {
-                selected.add(Integer.valueOf(select));
+            try {
+                for (String select : stringSelections) {
+                    selected.add(Integer.valueOf(select));
+                }
+            } catch (NumberFormatException ex) {
+                System.err.println("Please format properly your selection list");
+                return null;
             }
 
             return selected;
         };
 
-        List<Integer> selectedStories = selector.get();
 
-        // for each selected, move to sprint backlog
+        List<Integer> selectedStories;
+        do {
+            selectedStories = selector.get();
+        } while (selectedStories == null);
 
-        // if fails, rollback
+        if (UserStory.moveSome(Integer.valueOf(projectInfo[0]), sprintId, selectedStories.toArray(new Integer[selectedStories.size()])) == false) {
+            cancel();
+            return -1;
+        }
 
         int result = planQuery(title, duration, projectInfo[1]);
 

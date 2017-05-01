@@ -2,6 +2,7 @@ package Scrummer.ORMS;
 
 import Scrummer.ORM;
 
+import java.sql.Array;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,6 +17,8 @@ public class UserStoryORM extends ORM {
     protected PreparedStatement getToDoStatement;
     protected PreparedStatement getBacklogIdStatement;
     protected PreparedStatement updateBacklogIdStatement;
+    protected PreparedStatement updateABacklogIdStatement;
+    protected PreparedStatement updateAllBacklogIdStatement;
     protected PreparedStatement getStatement;
 
     protected void CreateStatements() throws SQLException {
@@ -23,6 +26,8 @@ public class UserStoryORM extends ORM {
         getAllStatement = link.prepareStatement("select * from UserStories where backlogId = ?");
         getBacklogIdStatement = link.prepareStatement("select backlogId from UserStories where id = ?");
         updateBacklogIdStatement = link.prepareStatement("update UserStories set backlogId = ? where id = ?");
+        updateABacklogIdStatement = link.prepareStatement("update UserStories set backlogId = ? where id = ? and backlogId = ?");
+        updateAllBacklogIdStatement = link.prepareStatement("update UserStories set backlogId = ? where backlogId = ?");
         getStatement = link.prepareStatement("select * from UserStories where id = ?");
         getToDoStatement = link.prepareStatement("select * from UserStories where backlogId = ? and status = 0");
     }
@@ -35,6 +40,8 @@ public class UserStoryORM extends ORM {
         getToDoStatement.close();
         getBacklogIdStatement.close();
         updateBacklogIdStatement.close();
+        updateABacklogIdStatement.close();
+        updateAllBacklogIdStatement.close();
     }
 
     protected int createQuery(String role, String goal, String reason, int priority, String aClass, int backlogId) {
@@ -76,13 +83,27 @@ public class UserStoryORM extends ORM {
         }
     }
 
-    protected int updateBacklogIdQuery(int storyId, int backlogId) {
+    protected int updateBacklogIdQuery(int storyId, int newBacklogId, int oldBacklogId) {
         try {
-            updateBacklogIdStatement.setInt(1, backlogId);
-            updateBacklogIdStatement.setInt(2, storyId);
-            int result = updateBacklogIdStatement.executeUpdate();
+            PreparedStatement query;
 
-            link.commit();
+            if (oldBacklogId == -1) {
+                query = updateBacklogIdStatement;
+            } else {
+                query = updateABacklogIdStatement;
+                query.setInt(3, oldBacklogId);
+            }
+
+            query.setInt(1, newBacklogId);
+            query.setInt(2, storyId);
+            int result = query.executeUpdate();
+
+            if (oldBacklogId == -1 && result != -1) {
+                link.commit();
+            } else if (result == -1) {
+                link.rollback();
+            }
+
             return result;
         } catch (SQLException ex) {
             System.err.println("UserStoryORM.updateBacklogQuery(): " + ex.getMessage());
@@ -97,7 +118,6 @@ public class UserStoryORM extends ORM {
 
     protected ResultSet getAllQuery(int backlogId) {
         try {
-            System.out.println(backlogId);
             getAllStatement.setInt(1, backlogId);
             return getAllStatement.executeQuery();
         } catch (SQLException ex) {
@@ -127,6 +147,28 @@ public class UserStoryORM extends ORM {
         catch (SQLException ex) {
             System.err.println("ProjectORM.getQuery(): " + ex.getMessage());
             return null;
+        }
+    }
+
+    public int updateAllBacklogIdQuery(int from, int to) {
+        try {
+            updateAllBacklogIdStatement.setInt(1, to);
+            updateAllBacklogIdStatement.setInt(2, from);
+            int result = updateAllBacklogIdStatement.executeUpdate();
+
+            if (result == -1) {
+                link.rollback();
+            }
+
+            return result;
+        } catch (SQLException ex) {
+            System.err.println("UserStoryORM.updateAllBacklogQuery(): " + ex.getMessage());
+            try {
+                link.rollback();
+            } catch (SQLException rollbackError) {
+                System.err.println("UserStoryORM.rollback(): " + rollbackError.getMessage());
+            }
+            return -1;
         }
     }
 }
