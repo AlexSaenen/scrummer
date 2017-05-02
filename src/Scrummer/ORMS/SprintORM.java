@@ -17,13 +17,14 @@ public class SprintORM extends ORM {
     protected PreparedStatement createStatement;
     protected PreparedStatement startStatement;
     protected PreparedStatement planStatement;
+    protected PreparedStatement getCurrentBacklogIdStatement;
     protected PreparedStatement getBacklogIdStatement;
     protected PreparedStatement getLastSprintStatement;
 
     protected void CreateStatements() throws SQLException {
         createStatement = link.prepareStatement("insert into Sprints (projectName, backlogId) values(?, ?)");
-        planStatement = link.prepareStatement("update Sprints set title = ?, duration = ? where projectName = ?");
-        getBacklogIdStatement = link.prepareStatement("select backlogId from Sprints where projectName = ?");
+        planStatement = link.prepareStatement("update Sprints set title = ?, duration = ? where projectName = ? and creation_date = ?");
+        getCurrentBacklogIdStatement = link.prepareStatement("select backlogId from Sprints where projectName = ? order by creation_date desc");
         getLastSprintStatement = link.prepareStatement("select * from Sprints where backlogId = ? order by creation_date desc");
         startStatement = link.prepareStatement("update Sprints set startDate = ? where title = ?");
     }
@@ -32,6 +33,7 @@ public class SprintORM extends ORM {
     protected void CloseStatements() throws SQLException {
         createStatement.close();
         planStatement.close();
+        getCurrentBacklogIdStatement.close();
         getBacklogIdStatement.close();
         getLastSprintStatement.close();
         startStatement.close();
@@ -48,10 +50,10 @@ public class SprintORM extends ORM {
         }
     }
 
-    protected int getBacklogIdQuery(String projectName) {
+    protected int getCurrentBacklogIdQuery(String projectName) {
         try {
-            getBacklogIdStatement.setString(1, projectName);
-            ResultSet sprints = getBacklogIdStatement.executeQuery();
+            getCurrentBacklogIdStatement.setString(1, projectName);
+            ResultSet sprints = getCurrentBacklogIdStatement.executeQuery();
             sprints.next();
             if (!sprints.first()) {
                 return -1;
@@ -66,9 +68,24 @@ public class SprintORM extends ORM {
 
     protected int planQuery(String title, int duration, String projectName) {
         try {
+            getCurrentBacklogIdStatement.setString(1, projectName);
+            ResultSet sprints = getCurrentBacklogIdStatement.executeQuery();
+            sprints.next();
+            if (!sprints.first()) {
+                return -1;
+            }
+
+            getLastSprintStatement.setInt(1, sprints.getInt(1));
+            sprints = getLastSprintStatement.executeQuery();
+            sprints.next();
+            if (!sprints.first()) {
+                return -1;
+            }
+
             planStatement.setString(1, title);
             planStatement.setInt(2, duration);
             planStatement.setString(3, projectName);
+            planStatement.setTimestamp(4, sprints.getTimestamp(6));
             return planStatement.executeUpdate();
         } catch (SQLException ex) {
             System.err.println("SprintORM.getBacklogIdQuery(): " + ex.getMessage());
@@ -78,7 +95,7 @@ public class SprintORM extends ORM {
 
     protected int startQuery(String projectName) {
         try {
-            int backlogId = getBacklogIdQuery(projectName);
+            int backlogId = getCurrentBacklogIdQuery(projectName);
             getLastSprintStatement.setInt(1, backlogId);
             ResultSet sprints = getLastSprintStatement.executeQuery();
             sprints.next();

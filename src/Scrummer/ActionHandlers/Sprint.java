@@ -32,7 +32,7 @@ public class Sprint extends ActionHandler {
     }
 
     static public int getBacklogId(String projectName) {
-        return sprintsController.getBacklogId(projectName);
+        return sprintsController.getCurrentBacklogId(projectName);
     }
 
     static public Date getEndDate(int backlogId) {
