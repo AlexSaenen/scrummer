@@ -12,7 +12,10 @@ public class Project extends Menu {
     public Project(String project) {
         selectedProject = project;
         userAllowedRequests = new String[] {"createStory", "moveStory", "allStories", "userStory", "updateStoryStatus", "deselect",
-            "planSprint", "startSprint", "assignEngineer", "addEngineer", "makeMember", "sprintEngineers"};
+            "planSprint", "startSprint", "assignEngineer", "addEngineer", "makeMember", "sprintEngineers",
+                "deleteStory",
+                "dissociateEngineer", "editEngineer", "removeEngineer", "removeMember"
+        };
     }
 
     @Override
@@ -23,10 +26,15 @@ public class Project extends Menu {
         System.out.println("\t(deselect) => Deselect Project and return to previous menu");
         System.out.println("\nEngineer Actions:");
         System.out.println("\t(assignEngineer) => Assign an Engineer to a UserStory");
+        System.out.println("\t(dissociateEngineer) => Remove an Engineer from a UserStory");
         System.out.println("\t(addEngineer) => Add a new Engineer");
+        System.out.println("\t(editEngineer) => Edit information about an Engineer");
+        System.out.println("\t(removeEngineer) => Delete an Engineer");
         System.out.println("\t(makeMember) => Make Engineer member of a Project");
+        System.out.println("\t(removeMember) => Remove an Engineer from a Project");
         System.out.println("\nUserStory Actions:");
         System.out.println("\t(createStory) => Add new User Story");
+        System.out.println("\t(deleteStory) => Delete User Story");
         System.out.println("\t(moveStory) => Move a User Story to the Sprint Backlog");
         System.out.println("\t(userStory) => Get information about a User Story");
         System.out.println("\t(allStories) => View all User Stories");

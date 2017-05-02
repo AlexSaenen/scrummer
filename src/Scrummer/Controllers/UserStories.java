@@ -158,4 +158,10 @@ public class UserStories extends UserStoryORM {
             System.err.println(ex.getMessage());
         }
     }
+
+    public void remove(int storyId, int backlogId) {
+        if (removeQuery(storyId, backlogId) != -1) {
+            System.out.println("User Story removed");
+        }
+    }
 }

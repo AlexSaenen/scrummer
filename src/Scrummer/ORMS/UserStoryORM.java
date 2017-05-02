@@ -19,6 +19,7 @@ public class UserStoryORM extends ORM {
     protected PreparedStatement updateABacklogIdStatement;
     protected PreparedStatement updateAllBacklogIdStatement;
     protected PreparedStatement getStatement;
+    protected PreparedStatement removeStatement;
     protected PreparedStatement changeStatusStatement;
 
     protected void CreateStatements() throws SQLException {
@@ -29,6 +30,7 @@ public class UserStoryORM extends ORM {
         updateABacklogIdStatement = link.prepareStatement("update UserStories set backlogId = ? where id = ? and backlogId = ?");
         updateAllBacklogIdStatement = link.prepareStatement("update UserStories set backlogId = ? where backlogId = ?");
         getStatement = link.prepareStatement("select * from UserStories where id = ?");
+        removeStatement = link.prepareStatement("delete from UserStories where id = ? and backlogId = ?");
         changeStatusStatement = link.prepareStatement("update UserStories set status = ?  where id = ?");
         getToDoStatement = link.prepareStatement("select * from UserStories where backlogId = ? and status = 0");
     }
@@ -128,7 +130,26 @@ public class UserStoryORM extends ORM {
         }
     }
 
+    public int removeQuery(int userStoryId, int backlogId) {
+        try {
+            removeStatement.setInt(1, userStoryId);
+            removeStatement.setInt(2, backlogId);
+            int result = removeStatement.executeUpdate();
 
+            if (result == -1) {
+                cancel();
+            } else {
+                apply();
+            }
+
+            return result;
+        }
+        catch (SQLException ex) {
+            System.err.println("ProjectORM.removeQuery(): " + ex.getMessage());
+            cancel();
+            return -1;
+        }
+    }
 
     public ResultSet getQuery(int userStoryId) {
         try {
@@ -160,7 +181,7 @@ public class UserStoryORM extends ORM {
             return getToDoStatement.executeQuery();
         }
         catch (SQLException ex) {
-            System.err.println("ProjectORM.getQuery(): " + ex.getMessage());
+            System.err.println("ProjectORM.getToDoQuery(): " + ex.getMessage());
             return null;
         }
     }
@@ -177,7 +198,7 @@ public class UserStoryORM extends ORM {
 
             return result;
         } catch (SQLException ex) {
-            System.err.println("UserStoryORM.updateAllBacklogQuery(): " + ex.getMessage());
+            System.err.println("UserStoryORM.updateAllBacklogIdQuery(): " + ex.getMessage());
             try {
                 link.rollback();
             } catch (SQLException rollbackError) {

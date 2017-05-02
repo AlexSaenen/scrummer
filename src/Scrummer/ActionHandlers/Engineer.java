@@ -15,7 +15,7 @@ public class Engineer extends ActionHandler {
 
     @Override
     protected void enableActions() {
-        actions = new String[]{"assignEngineer", "addEngineer", "makeMember", "engineer"};
+        actions = new String[]{"assignEngineer", "addEngineer", "makeMember", "engineer", "removeMember", "removeEngineer", "engineers", "dissociateEngineer"};
     }
 
     @Override
@@ -42,10 +42,28 @@ public class Engineer extends ActionHandler {
     }
 
     @SuppressWarnings("unused")
+    static public void dissociateEngineer(String[] params) {
+        String engineerName = user.getString("Engineer's full name: ");
+        Integer storyId;
+
+        do {
+            storyId = user.getInt("Id of User Story to dissociate from: ");
+        } while (storyId < 0);
+
+        engineersController.dissociate(engineerName, storyId, params[1]);
+    }
+
+    @SuppressWarnings("unused")
     static public void addEngineer(String[] params) {
         String engineerName = user.getString("Engineer's full name: ");
         String phone = user.getString("Engineer's phone: ");
         engineersController.add(engineerName, phone);
+    }
+
+    @SuppressWarnings("unused")
+    static public void removeEngineer(String[] params) {
+        String engineerName = user.getString("Engineer's full name: ");
+        engineersController.remove(engineerName);
     }
 
     @SuppressWarnings("unused")
@@ -55,10 +73,21 @@ public class Engineer extends ActionHandler {
     }
 
     @SuppressWarnings("unused")
+    static public void removeMember(String[] params) {
+        String engineerName = user.getString("Engineer's full name: ");
+        engineersController.removeMember(engineerName, params[1]);
+    }
+
+    @SuppressWarnings("unused")
     static public void engineer() {
         String engineerName = user.getString("Engineer's full name: ");
         if (engineersController.get(engineerName) != -1) {
             Team.getProjectsFor(engineerName);
         }
+    }
+
+    @SuppressWarnings("unused")
+    static public void engineers() {
+        engineersController.getAll();
     }
 }
