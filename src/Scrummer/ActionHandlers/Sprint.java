@@ -14,7 +14,7 @@ public class Sprint extends ActionHandler {
 
     @Override
     protected void enableActions() {
-        actions = new String[]{"startSprint", "planSprint"};
+        actions = new String[]{"startSprint", "planSprint", "sprintStories"};
     }
 
     @Override
@@ -49,6 +49,19 @@ public class Sprint extends ActionHandler {
         }
 
         return sprintsController.plan(title, duration, params);
+    }
+
+    @SuppressWarnings("unused")
+    static public int sprintStories(String []params) {
+        int sprintId = getBacklogId(params[1]);
+
+        if (sprintId == -1) {
+            System.err.println("No Sprint found for this project");
+            return -1;
+        }
+
+        UserStory.allStories(new String[]{ String.valueOf(sprintId) });
+        return 1;
     }
 
     @SuppressWarnings("unused")

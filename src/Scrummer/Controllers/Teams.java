@@ -57,4 +57,25 @@ public class Teams extends TeamORM {
         }
     }
 
+    public void getProjectsFor(String who) {
+        try {
+            ResultSet projects = getProjectsForQuery(who);
+
+            System.out.print("\nSPRINTS:");
+            if (!projects.first()) {
+                System.out.println(" None");
+            } else {
+                System.out.println();
+                do {
+                    System.out.print("\tProject Name: " + projects.getString(2));
+                    System.out.println();
+                } while (projects.next());
+            }
+
+            System.out.println();
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+            return;
+        }
+    }
 }

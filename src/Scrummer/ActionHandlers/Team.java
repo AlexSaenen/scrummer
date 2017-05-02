@@ -33,4 +33,8 @@ public class Team extends ActionHandler {
     static public void sprintEngineers(String[] params) {
         teamsController.listMembers(params[1]);
     }
+
+    static public void getProjectsFor(String who) {
+        teamsController.getProjectsFor(who);
+    }
 }

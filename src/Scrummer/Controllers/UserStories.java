@@ -21,7 +21,7 @@ public class UserStories extends UserStoryORM {
         System.out.println("\t\t - " + stories.getString(4));
     }
 
-    private void displayUserStoryInfo(ResultSet userStories) throws SQLException{
+    public void displayUserStoryInfo(ResultSet userStories) throws SQLException{
         System.out.print("As a " + userStories.getString(3));
         System.out.print(", I want " + userStories.getString(4));
         System.out.println(" so that " + userStories.getString(5));
@@ -221,6 +221,12 @@ public class UserStories extends UserStoryORM {
             System.out.println();
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
+        }
+    }
+
+    public void remove(int storyId, int backlogId) {
+        if (removeQuery(storyId, backlogId) != -1) {
+            System.out.println("User Story removed");
         }
     }
 }

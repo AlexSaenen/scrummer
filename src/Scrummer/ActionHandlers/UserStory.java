@@ -3,6 +3,9 @@ package Scrummer.ActionHandlers;
 import Scrummer.ActionHandler;
 import Scrummer.Controllers.UserStories;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  * Created by nicolasgirardot on 4/19/17.
  */
@@ -12,7 +15,7 @@ public class UserStory extends ActionHandler {
 
     @Override
     protected void enableActions() {
-        actions = new String[]{"createStory", "moveStory", "allStories", "userStory", "sprintRecap"};
+        actions = new String[]{"createStory", "moveStory", "allStories", "userStory", "sprintRecap", "deleteStory"};
     }
 
     @Override
@@ -55,6 +58,19 @@ public class UserStory extends ActionHandler {
     }
 
     @SuppressWarnings("unused")
+    static public void deleteStory(String[] params) {
+        int storyId = -1;
+
+        while (storyId < 0) {
+            storyId = user.getInt("Id of User Story: ");
+        }
+
+        int backlogId = Integer.valueOf(params[0]);
+
+        userStoriesController.remove(storyId, backlogId);
+    }
+
+    @SuppressWarnings("unused")
     static public void moveStory(String[] params) {
         int storyId = -1;
 
@@ -63,6 +79,10 @@ public class UserStory extends ActionHandler {
         }
 
         userStoriesController.move(storyId, params[1], Integer.valueOf(params[0]));
+    }
+
+    static public void displayInfo(ResultSet story) throws SQLException {
+        userStoriesController.displayUserStoryInfo(story);
     }
 
     static public boolean moveAll(int from, int to) {

@@ -13,17 +13,20 @@ public class TeamORM extends ORM {
 
     protected PreparedStatement getMemberStatement;
     protected PreparedStatement getAllMembersStatement;
+    protected PreparedStatement getProjectsForStatement;
 
     @Override
     protected void CreateStatements() throws SQLException {
         getMemberStatement = link.prepareStatement("select * from TeamMembers where name = ? and project = ?");
         getAllMembersStatement = link.prepareStatement("select * from Engineers eng join TeamMembers tm on eng.name = tm.name where tm.project = ?");
+        getProjectsForStatement = link.prepareStatement("select * from TeamMembers where name = ?");
     }
 
     @Override
     protected void CloseStatements() throws SQLException {
         getMemberStatement.close();
         getAllMembersStatement.close();
+        getProjectsForStatement.close();
     }
 
     protected ResultSet getMemberQuery(String who, String project) {
@@ -41,6 +44,16 @@ public class TeamORM extends ORM {
         try {
             getAllMembersStatement.setString(1, project);
             return getAllMembersStatement.executeQuery();
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+            return null;
+        }
+    }
+
+    protected ResultSet getProjectsForQuery(String who) {
+        try {
+            getProjectsForStatement.setString(1, who);
+            return getProjectsForStatement.executeQuery();
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
             return null;
