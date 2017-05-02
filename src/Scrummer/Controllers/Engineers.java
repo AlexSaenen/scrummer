@@ -4,6 +4,9 @@ import Scrummer.ActionHandlers.Team;
 import Scrummer.ActionHandlers.UserStory;
 import Scrummer.ORMS.EngineerORM;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  * Created by alexsaenen on 5/1/17.
  */
@@ -35,4 +38,25 @@ public class Engineers extends EngineerORM {
     public void makeMember(String who, String project) {
         addMemberQuery(who, project);
     }
+
+    public int get(String who) {
+        try {
+            ResultSet engineers = getQuery(who);
+
+            if (!engineers.first()) {
+                System.err.println("No such engineer");
+                return -1;
+            } else {
+                System.out.print("\n\tName: " + engineers.getString(1));
+                System.out.print(", Phone: " + engineers.getString(2));
+            }
+
+            System.out.println();
+            return 1;
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+            return -1;
+        }
+    }
+
 }

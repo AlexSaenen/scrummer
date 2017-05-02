@@ -15,7 +15,7 @@ public class Engineer extends ActionHandler {
 
     @Override
     protected void enableActions() {
-        actions = new String[]{"assignEngineer", "addEngineer", "makeMember"};
+        actions = new String[]{"assignEngineer", "addEngineer", "makeMember", "engineer"};
     }
 
     @Override
@@ -52,5 +52,13 @@ public class Engineer extends ActionHandler {
     static public void makeMember(String[] params) {
         String engineerName = user.getString("Engineer's full name: ");
         engineersController.makeMember(engineerName, params[1]);
+    }
+
+    @SuppressWarnings("unused")
+    static public void engineer() {
+        String engineerName = user.getString("Engineer's full name: ");
+        if (engineersController.get(engineerName) != -1) {
+            Team.getProjectsFor(engineerName);
+        }
     }
 }

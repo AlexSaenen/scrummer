@@ -3,6 +3,7 @@ package Scrummer.ORMS;
 import Scrummer.ORM;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -13,18 +14,21 @@ public class EngineerORM extends ORM {
     protected PreparedStatement addAssignmentStatement;
     protected PreparedStatement addStatement;
     protected PreparedStatement addMemberStatement;
+    protected PreparedStatement getStatement;
 
     @Override
     protected void CreateStatements() throws SQLException {
         addAssignmentStatement = link.prepareStatement("insert into UserAssignments (name, task) values (?, ?)");
         addStatement = link.prepareStatement("insert into Engineers (name, phone) values (?, ?)");
         addMemberStatement = link.prepareStatement("insert into TeamMembers (name, project) values (?, ?)");
+        getStatement = link.prepareStatement("select * from Engineers where name = ?");
     }
 
     @Override
     protected void CloseStatements() throws SQLException {
         addAssignmentStatement.close();
         addStatement.close();
+        getStatement.close();
         addMemberStatement.close();
     }
 
@@ -81,6 +85,16 @@ public class EngineerORM extends ORM {
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
             cancel();
+        }
+    }
+
+    protected ResultSet getQuery(String who) {
+        try {
+            getStatement.setString(1, who);
+            return getStatement.executeQuery();
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+            return null;
         }
     }
 }
