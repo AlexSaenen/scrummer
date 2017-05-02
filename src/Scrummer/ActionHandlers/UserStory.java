@@ -3,6 +3,9 @@ package Scrummer.ActionHandlers;
 import Scrummer.ActionHandler;
 import Scrummer.Controllers.UserStories;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  * Created by nicolasgirardot on 4/19/17.
  */
@@ -76,6 +79,10 @@ public class UserStory extends ActionHandler {
         }
 
         userStoriesController.move(storyId, params[1], Integer.valueOf(params[0]));
+    }
+
+    static public void displayInfo(ResultSet story) throws SQLException {
+        userStoriesController.displayUserStoryInfo(story);
     }
 
     static public boolean moveAll(int from, int to) {

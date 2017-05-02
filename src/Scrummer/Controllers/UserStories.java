@@ -18,7 +18,7 @@ public class UserStories extends UserStoryORM {
     }
 
 
-    private void displayUserStoryInfo(ResultSet userStories) throws SQLException{
+    public void displayUserStoryInfo(ResultSet userStories) throws SQLException{
         System.out.print("As a " + userStories.getString(3));
         System.out.print(", I want " + userStories.getString(4));
         System.out.println(" so that " + userStories.getString(5));

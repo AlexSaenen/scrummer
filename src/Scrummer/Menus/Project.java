@@ -12,9 +12,9 @@ public class Project extends Menu {
     public Project(String project) {
         selectedProject = project;
         userAllowedRequests = new String[] {"createStory", "moveStory", "allStories", "userStory", "updateStoryStatus", "deselect",
-            "planSprint", "startSprint", "assignEngineer", "addEngineer", "makeMember", "sprintEngineers",
+            "planSprint", "startSprint", "sprintStories", "assignEngineer", "addEngineer", "makeMember", "sprintEngineers",
                 "deleteStory",
-                "dissociateEngineer", "editEngineer", "removeEngineer", "removeMember"
+                "dissociateEngineer", "removeEngineer", "removeMember"
         };
     }
 
@@ -28,7 +28,6 @@ public class Project extends Menu {
         System.out.println("\t(assignEngineer) => Assign an Engineer to a UserStory");
         System.out.println("\t(dissociateEngineer) => Remove an Engineer from a UserStory");
         System.out.println("\t(addEngineer) => Add a new Engineer");
-        System.out.println("\t(editEngineer) => Edit information about an Engineer");
         System.out.println("\t(removeEngineer) => Delete an Engineer");
         System.out.println("\t(makeMember) => Make Engineer member of a Project");
         System.out.println("\t(removeMember) => Remove an Engineer from a Project");
@@ -43,6 +42,7 @@ public class Project extends Menu {
         System.out.println("\t(planSprint) => Plan the sprint duration and title");
         System.out.println("\t(startSprint) => Start the sprint for this project");
         System.out.println("\t(sprintEngineers) => Display information about all the sprint's engineers");
+        System.out.println("\t(sprintStories) => Display User Stories attached to the project sprint");
         System.out.println();
     }
 }

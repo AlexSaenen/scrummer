@@ -171,6 +171,7 @@ public class UserStoryORM extends ORM {
             return result;
         } catch (SQLException e) {
                 e.printStackTrace();
+                cancel();
                 return -1;
         }
     }

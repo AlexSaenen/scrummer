@@ -61,6 +61,26 @@ public class Engineers extends EngineerORM {
         removeMemberQuery(who, project);
     }
 
+    public void getStories(String who) {
+        try {
+            ResultSet stories = getStoriesQuery(who);
+
+            System.out.println("\nUSER STORIES:");
+            if (!stories.first()) {
+                System.out.println("No stories");
+            } else {
+                do {
+                    System.out.print("\t");
+                    UserStory.displayInfo(stories);
+                } while (stories.next());
+            }
+
+            System.out.println();
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+    }
+
     public int get(String who) {
         try {
             ResultSet engineers = getQuery(who);

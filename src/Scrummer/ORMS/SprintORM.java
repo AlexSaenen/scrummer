@@ -114,6 +114,7 @@ public class SprintORM extends ORM {
             }
             return 0;
         } catch (SQLException ex) {
+            cancel();
             System.err.println("SprintORM.getBacklogIdQuery(): " + ex.getMessage());
             return -1;
         }

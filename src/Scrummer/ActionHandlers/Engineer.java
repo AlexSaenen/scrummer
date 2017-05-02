@@ -15,7 +15,8 @@ public class Engineer extends ActionHandler {
 
     @Override
     protected void enableActions() {
-        actions = new String[]{"assignEngineer", "addEngineer", "makeMember", "engineer", "removeMember", "removeEngineer", "engineers", "dissociateEngineer"};
+        actions = new String[]{"assignEngineer", "addEngineer", "makeMember", "engineer", "removeMember", "removeEngineer", "engineers",
+                "dissociateEngineer", "engineerStories"};
     }
 
     @Override
@@ -89,5 +90,11 @@ public class Engineer extends ActionHandler {
     @SuppressWarnings("unused")
     static public void engineers() {
         engineersController.getAll();
+    }
+
+    @SuppressWarnings("unused")
+    static public void engineerStories() {
+        String engineerName = user.getString("Engineer's full name: ");
+        engineersController.getStories(engineerName);
     }
 }

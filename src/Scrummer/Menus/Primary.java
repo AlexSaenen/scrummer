@@ -12,7 +12,7 @@ public class Primary extends Menu {
         userAllowedRequests = new String[] {
                 "quit", "selectProject",
                 "allProjects", "addProject", "project",
-                "engineer", "engineers"
+                "engineer", "engineers", "engineerStories"
         };
     }
 
@@ -28,6 +28,7 @@ public class Primary extends Menu {
         System.out.println("\nEngineer Actions:");
         System.out.println("\t(engineer) => Get details about an engineer");
         System.out.println("\t(engineers) => List all engineers");
+        System.out.println("\t(engineerStories) => List all UserStories assigned to an engineer");
         System.out.println();
     }
 }

@@ -18,6 +18,7 @@ public class EngineerORM extends ORM {
     protected PreparedStatement addMemberStatement;
     protected PreparedStatement removeMemberStatement;
     protected PreparedStatement getStatement;
+    protected PreparedStatement getStoriesStatement;
 
     @Override
     protected void CreateStatements() throws SQLException {
@@ -28,6 +29,7 @@ public class EngineerORM extends ORM {
         addMemberStatement = link.prepareStatement("insert into TeamMembers (name, project) values (?, ?)");
         removeMemberStatement = link.prepareStatement("delete from TeamMembers where name = ? and project = ?");
         getStatement = link.prepareStatement("select * from Engineers where name = ?");
+        getStoriesStatement = link.prepareStatement("select * from UserStories uS join UserAssignments uA on uS.id = uA.task where name = ?");
     }
 
     @Override
@@ -168,6 +170,16 @@ public class EngineerORM extends ORM {
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
             cancel();
+        }
+    }
+
+    protected ResultSet getStoriesQuery(String who) {
+        try {
+            getStoriesStatement.setString(1, who);
+            return getStoriesStatement.executeQuery();
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+            return null;
         }
     }
 }
