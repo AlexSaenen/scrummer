@@ -14,6 +14,9 @@ public class UserStoryORM extends ORM {
     protected PreparedStatement createStatement;
     protected PreparedStatement getAllStatement;
     protected PreparedStatement getToDoStatement;
+    protected PreparedStatement getBandDStatement;
+    protected PreparedStatement getTestingStatement;
+    protected PreparedStatement getCompletedStatement;
     protected PreparedStatement getBacklogIdStatement;
     protected PreparedStatement updateBacklogIdStatement;
     protected PreparedStatement updateABacklogIdStatement;
@@ -31,6 +34,9 @@ public class UserStoryORM extends ORM {
         getStatement = link.prepareStatement("select * from UserStories where id = ?");
         changeStatusStatement = link.prepareStatement("update UserStories set status = ?  where id = ?");
         getToDoStatement = link.prepareStatement("select * from UserStories where backlogId = ? and status = 0");
+        getBandDStatement = link.prepareStatement("select * from UserStories where backlogId = ? and status = 1");
+        getTestingStatement = link.prepareStatement("select * from UserStories where backlogId = ? and status = 2");
+        getCompletedStatement = link.prepareStatement("select * from UserStories where backlogId = ? and status = 3");
     }
 
     @Override
@@ -158,6 +164,39 @@ public class UserStoryORM extends ORM {
         try {
             getToDoStatement.setInt(1, backlogId);
             return getToDoStatement.executeQuery();
+        }
+        catch (SQLException ex) {
+            System.err.println("ProjectORM.getQuery(): " + ex.getMessage());
+            return null;
+        }
+    }
+
+    public ResultSet getBandDQuery(int backlogId) {
+        try {
+            getBandDStatement.setInt(1, backlogId);
+            return getBandDStatement.executeQuery();
+        }
+        catch (SQLException ex) {
+            System.err.println("ProjectORM.getQuery(): " + ex.getMessage());
+            return null;
+        }
+    }
+
+    public ResultSet getTestingQuery(int backlogId) {
+        try {
+            getTestingStatement.setInt(1, backlogId);
+            return getTestingStatement.executeQuery();
+        }
+        catch (SQLException ex) {
+            System.err.println("ProjectORM.getQuery(): " + ex.getMessage());
+            return null;
+        }
+    }
+
+    public ResultSet getCompletedQuery(int backlogId) {
+        try {
+            getCompletedStatement.setInt(1, backlogId);
+            return getCompletedStatement.executeQuery();
         }
         catch (SQLException ex) {
             System.err.println("ProjectORM.getQuery(): " + ex.getMessage());

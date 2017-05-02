@@ -5,6 +5,7 @@ import Scrummer.ActionHandlers.UserStory;
 import Scrummer.ORMS.SprintORM;
 import Scrummer.UserInput;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,6 +26,10 @@ public class Sprints extends SprintORM {
         return getBacklogIdQuery(projectName);
     }
 
+    public Date getEndDate(int backlogId) {
+        return endDateQuery(backlogId);
+    }
+
     public int plan(String title, int duration, String[] projectInfo) {
         UserInput inputMethod = new UserInput();
 
@@ -41,7 +46,7 @@ public class Sprints extends SprintORM {
 
         Supplier<List<Integer>> selector = ()-> {
             List<Integer> selected = new ArrayList<>();
-            UserStory.getToDos(Integer.valueOf(projectInfo[0]));
+            UserStory.getToDos(Integer.valueOf(projectInfo[0]), false);
 
             String input = inputMethod.getString("[n,n,...] Make a list of selections: ");
             String[] stringSelections = input.split(",");

@@ -17,6 +17,9 @@ public class UserStories extends UserStoryORM {
         System.out.println(", Goal : " + stories.getString(4));
     }
 
+    private void displayUserStoriesForSprint(ResultSet stories) throws SQLException {
+        System.out.println("\t\t - " + stories.getString(4));
+    }
 
     private void displayUserStoryInfo(ResultSet userStories) throws SQLException{
         System.out.print("As a " + userStories.getString(3));
@@ -114,17 +117,79 @@ public class UserStories extends UserStoryORM {
         changeStatusQuery(userStoryId, status);
     }
 
-    public void getTodos(int backlogId) {
+    public void getTodos(int backlogId, boolean forSprint) {
         ResultSet stories = getToDoQuery(backlogId);
         try {
-            System.out.print("\nUSER STORIES:");
+            if (!forSprint)
+                System.out.print("\nUSER STORIES:");
             if (!stories.first()) {
                 System.out.println(" None");
             } else {
                 System.out.println();
                 do {
                     System.out.print("\t");
-                    displayUserStories(stories);
+                    if (!forSprint)
+                        displayUserStories(stories);
+                    else
+                        displayUserStoriesForSprint(stories);
+                } while (stories.next());
+            }
+            System.out.println();
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+    }
+
+    public void getBandD(int backlogId) {
+        ResultSet stories = getBandDQuery(backlogId);
+        try {
+            if (!stories.first()) {
+                System.out.println(" None");
+            } else {
+                System.out.println();
+                do {
+                    System.out.print("\t");
+                    displayUserStoriesForSprint(stories);
+                } while (stories.next());
+            }
+            System.out.println();
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+    }
+
+
+
+    public void getTesting(int backlogId) {
+        ResultSet stories = getTestingQuery(backlogId);
+        try {
+            if (!stories.first()) {
+                System.out.println(" None");
+            } else {
+                System.out.println();
+                do {
+                    System.out.print("\t");
+                    displayUserStoriesForSprint(stories);
+                } while (stories.next());
+            }
+            System.out.println();
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+    }
+
+
+
+    public void getCompleted(int backlogId) {
+        ResultSet stories = getCompletedQuery(backlogId);
+        try {
+            if (!stories.first()) {
+                System.out.println(" None");
+            } else {
+                System.out.println();
+                do {
+                    System.out.print("\t");
+                    displayUserStoriesForSprint(stories);
                 } while (stories.next());
             }
             System.out.println();

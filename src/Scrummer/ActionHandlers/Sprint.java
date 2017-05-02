@@ -3,6 +3,8 @@ package Scrummer.ActionHandlers;
 import Scrummer.ActionHandler;
 import Scrummer.Controllers.Sprints;
 
+import java.sql.Date;
+
 /**
  * Created by nicolasgirardot on 4/19/17.
  */
@@ -31,6 +33,10 @@ public class Sprint extends ActionHandler {
 
     static public int getBacklogId(String projectName) {
         return sprintsController.getBacklogId(projectName);
+    }
+
+    static public Date getEndDate(int backlogId) {
+        return sprintsController.getEndDate(backlogId);
     }
 
     @SuppressWarnings("unused")

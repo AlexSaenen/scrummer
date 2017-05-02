@@ -101,4 +101,24 @@ public class SprintORM extends ORM {
             return -1;
         }
     }
+
+    protected Date endDateQuery(int backlogId) {
+        try {
+            getLastSprintStatement.setInt(1, backlogId);
+            ResultSet sprints = getLastSprintStatement.executeQuery();
+            sprints.next();
+            if (!sprints.first()) {
+                return null;
+            }
+            Date end = sprints.getDate(4);
+            Calendar c = Calendar.getInstance();
+            c.setTime(end);
+            c.add(Calendar.DATE, sprints.getInt("duration"));
+            Date currentDatePlusOne = new java.sql.Date(c.getTimeInMillis());
+            return currentDatePlusOne;
+        } catch (SQLException ex) {
+            System.err.println("SprintORM.getBacklogIdQuery(): " + ex.getMessage());
+            return null;
+        }
+    }
 }

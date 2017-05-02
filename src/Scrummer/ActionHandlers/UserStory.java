@@ -12,7 +12,7 @@ public class UserStory extends ActionHandler {
 
     @Override
     protected void enableActions() {
-        actions = new String[]{"createStory", "moveStory", "allStories", "userStory"};
+        actions = new String[]{"createStory", "moveStory", "allStories", "userStory", "sprintRecap"};
     }
 
     @Override
@@ -73,8 +73,32 @@ public class UserStory extends ActionHandler {
         return userStoriesController.moveSome(from, to, which);
     }
 
-    static public void getToDos(Integer backlogId) {
-        userStoriesController.getTodos(backlogId);
+    static public void getToDos(Integer backlogId, boolean forSprint) {
+        userStoriesController.getTodos(backlogId, forSprint);
+    }
+
+    static public void getBandD(Integer backlogId) {
+        userStoriesController.getBandD(backlogId);
+    }
+
+    static public void getTesting(Integer backlogId) {
+        userStoriesController.getTesting(backlogId);
+    }
+
+    static public void getCompleted(Integer backlogId) {
+        userStoriesController.getCompleted(backlogId);
+    }
+
+    static public void sprintRecap(String[] params) {
+        int backlogId = Sprint.getBacklogId(params[1]);
+        System.out.print("Current Sprint " + Sprint.getEndDate(backlogId) + " :\n\tTo Do:");
+        getToDos(backlogId, true);
+        System.out.print("\tBuild And Document:");
+        getBandD(backlogId);
+        System.out.print("\tTesting:");
+        getTesting(backlogId);
+        System.out.print("\tCompleted:");
+        getCompleted(backlogId);
     }
 
     @SuppressWarnings("unused")

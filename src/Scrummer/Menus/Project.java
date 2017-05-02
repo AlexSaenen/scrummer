@@ -12,7 +12,7 @@ public class Project extends Menu {
     public Project(String project) {
         selectedProject = project;
         userAllowedRequests = new String[] {"createStory", "moveStory", "allStories", "userStory", "updateStoryStatus", "deselect",
-            "planSprint", "startSprint"};
+            "planSprint", "startSprint", "sprintRecap"};
     }
 
     @Override
@@ -29,6 +29,7 @@ public class Project extends Menu {
         System.out.println("\nSprint Actions:");
         System.out.println("\t(planSprint) => Plan the sprint duration and title");
         System.out.println("\t(startSprint) => Start the sprint for this project");
+        System.out.println("\t(sprintRecap) => View a recapitulation of the sprint");
         System.out.println();
     }
 }
