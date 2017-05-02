@@ -114,6 +114,32 @@ public class UserStories extends UserStoryORM {
         changeStatusQuery(userStoryId, status);
     }
 
+    public boolean isInSprint(int userStoryId, String projectName) {
+        int sprintId = Sprint.getBacklogId(projectName);
+
+        if (sprintId == -1) {
+            return false;
+        }
+
+        return getBacklogIdQuery(userStoryId) == sprintId;
+    }
+
+    public boolean isCompleted(int userStoryId) {
+        ResultSet userStories = getQuery(userStoryId);
+        try {
+            userStories.next();
+            if (!userStories.first()) {
+                return true;
+            } else {
+                return userStories.getInt(2) == 3;
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+
+        return true;
+    }
+
     public void getTodos(int backlogId) {
         ResultSet stories = getToDoQuery(backlogId);
         try {

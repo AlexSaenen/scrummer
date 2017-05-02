@@ -77,6 +77,14 @@ public class UserStory extends ActionHandler {
         userStoriesController.getTodos(backlogId);
     }
 
+    static public boolean isInSprint(Integer storyId, String projectName) {
+        return userStoriesController.isInSprint(storyId, projectName);
+    }
+
+    static public boolean isCompleted(Integer storyId) {
+        return userStoriesController.isCompleted(storyId);
+    }
+
     @SuppressWarnings("unused")
     static public void updateStoryStatus(String[] params) {
         int storyId = -1;

@@ -66,10 +66,17 @@ public class SprintORM extends ORM {
         }
     }
 
-    protected int planQuery(String title, int duration, String[] projectInfo) {
+    protected int planQuery(String title, int duration, String projectName) {
         try {
-            getLastSprintStatement.setInt(1, Integer.valueOf(projectInfo[0]));
-            ResultSet sprints = getLastSprintStatement.executeQuery();
+            getCurrentBacklogIdStatement.setString(1, projectName);
+            ResultSet sprints = getCurrentBacklogIdStatement.executeQuery();
+            sprints.next();
+            if (!sprints.first()) {
+                return -1;
+            }
+
+            getLastSprintStatement.setInt(1, sprints.getInt(1));
+            sprints = getLastSprintStatement.executeQuery();
             sprints.next();
             if (!sprints.first()) {
                 return -1;
@@ -77,7 +84,7 @@ public class SprintORM extends ORM {
 
             planStatement.setString(1, title);
             planStatement.setInt(2, duration);
-            planStatement.setString(3, projectInfo[1]);
+            planStatement.setString(3, projectName);
             planStatement.setTimestamp(4, sprints.getTimestamp(6));
             return planStatement.executeUpdate();
         } catch (SQLException ex) {

@@ -69,7 +69,7 @@ public class Sprints extends SprintORM {
             return -1;
         }
 
-        int result = planQuery(title, duration, projectInfo);
+        int result = planQuery(title, duration, projectInfo[1]);
 
         if (result != -1) {
             apply();
@@ -84,5 +84,5 @@ public class Sprints extends SprintORM {
             System.out.println("Plan the project first");
         }
         return queryStatus;
-      }
+    }
 }
